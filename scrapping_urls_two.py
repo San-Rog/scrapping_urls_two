@@ -13,14 +13,11 @@ def validate(url):
        
 def textUrl(soup, url):
     links = []
-    linksAbs = []
     for link in soup.find_all('href', href=True):
         href = link.get('href')
         if validate(href):  
             links.append(href)
-            linksAbs.append(urljoin(url, href))
-    st.write(links)
-    return(links, linksAbs)
+    return links
 
 def extratText(soup, url):
     with st.spinner(text='Scrapping do texto do site {url}...', show_time=True, width="stretch"):
@@ -29,12 +26,10 @@ def extratText(soup, url):
 
 def extractLinks(soup, url): 
     with st.spinner(text='Scrapping dos links do site {url}...', show_time=True, width="stretch"):
-        links, linksAbs = textUrl(soup, url)
+        links = textUrl(soup, url)
         for link in links:
             st.write(link)
-        for linkAb in linksAbs:
-            st.write(linkAb)
-
+       
 def extracImgs(soup, url):
     with st.spinner(text='Scrapping das imagens do site {url}...', show_time=True, width="stretch"):
         imagens = soup.find_all('img')
@@ -63,11 +58,9 @@ def extracImgs(soup, url):
 
 def extractFiles(soup, url): 
     with st.spinner(text='Scrapping dos links do site {url}...', show_time=True, width="stretch"):
-        links, linksAbs = textUrl(soup, url)
+        links = textUrl(soup, url)
         for link in links:
             st.write(link)
-        for linkAb in linksAbs:
-            st.write(linkAb)
 
 async def scrap(url):
     async with aiohttp.ClientSession() as session:
