@@ -1,7 +1,7 @@
 import aiohttp
 import asyncio
 import streamlit as st
-from urllib.parse import urlparse
+from urllib.parse import urljoin, urlparse
 from bs4 import BeautifulSoup
 
 def validate(url):
@@ -12,6 +12,7 @@ def validate(url):
         return False
  
 def extratText(soup):
+    with st.spinner("Procurando elementos textuais na URL 
     texto_limpo = soup.get_text(separator='\n', strip=True)
     st.write(texto_limpo)
  
@@ -21,7 +22,10 @@ def extractLinks(soup):
         if validate(href):  
             st.write(href, len(href))
 
-async def main(url):
+def extracImgs(soup):
+    pass
+
+async def scrap(url):
     async with aiohttp.ClientSession() as session:
         async with session.get(url) as resp:
             try:
@@ -30,12 +34,19 @@ async def main(url):
                 return soup
             except:
                 return ''
+                
+def main():
+    urlBase = "http://www.tjma.jus.br/"
+    soup = asyncio.run(scrap(urlBase)
+    if len(soup) > 0:
+        extratText(soup)
+        extractLinks(soup)
+        extracImgs(soup)
 
-soup = asyncio.run(main('http://www.tjma.jus.br/'))
-if len(soup) > 0:
-    extratText(soup)
-    extractLinks(soup)
+if __name__ == '__main__':
+    main()
 
 #https://scrappingurlstwo-aouanptf499cdt98bpmjvg.streamlit.app/
+#https://docs.aiohttp.org/en/stable/client_quickstart.html
 
  
