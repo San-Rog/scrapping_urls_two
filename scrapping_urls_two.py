@@ -4,13 +4,15 @@ import streamlit as st
 from urllib.parse import urljoin, urlparse
 from bs4 import BeautifulSoup
 
+@st.cache_data
 def validate(url):
     try:
         parsed = urlparse(url)
         return all([parsed.scheme, parsed.netloc])
     except ValueError:
         return False
-       
+
+@st.cache_data      
 def textUrl(soup, url):
     links = []
     for link in soup.find_all('href', href=True):
