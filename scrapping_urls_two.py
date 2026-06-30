@@ -1,6 +1,7 @@
 import aiohttp
 import asyncio
 import streamlit as st
+from urllib.parse import urlparse
 from bs4 import BeautifulSoup
 
 async def main(url):
