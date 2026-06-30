@@ -64,9 +64,11 @@ def extracImgs(soup, url):
 
 def extractFiles(soup, url): 
     with st.spinner(text='Scrapping dos links do site {url}...', show_time=True, width="stretch"):
-        links = textUrl(soup)
+        links, linksAbs = textUrl(soup, url)
         for link in links:
             st.write(link)
+        for linkAb in linksAbs:
+            st.write(linkAb)
 
 async def scrap(url):
     async with aiohttp.ClientSession() as session:
