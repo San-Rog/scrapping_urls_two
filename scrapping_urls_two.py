@@ -6,9 +6,9 @@ from bs4 import BeautifulSoup
 async def main(url):
     async with aiohttp.ClientSession() as session:
         async with session.get(url) as resp:
-            print(resp.status)
-            html = await resp.text()
-            soup = BeautifulSoup(html, 'html.parser')
+            st.write(resp.status)
+            htmlText = await resp.text()
+            soup = BeautifulSoup(htmlText , 'html.parser')
             texto_limpo = soup.get_text(separator=' ', strip=True)
             st.write(texto_limpo)
 
