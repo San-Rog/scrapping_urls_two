@@ -11,9 +11,10 @@ def validate(url):
     except ValueError:
         return False
  
-def extratText(soup):
-    texto_limpo = soup.get_text(separator='\n', strip=True)
-    st.write(texto_limpo)
+def extratText(soup, url):
+    with st.spinner('Scrapping do texto da URL {url}...'):
+        texto_limpo = soup.get_text(separator='\n', strip=True)
+        st.write(texto_limpo)
  
 def extractLinks(soup): 
     for link in soup.find_all('a'):
@@ -38,14 +39,15 @@ def main():
     urlBase = "http://www.tjma.jus.br/"
     soup = asyncio.run(scrap(urlBase))
     if len(soup) > 0:
-        extratText(soup)
-        extractLinks(soup)
-        extracImgs(soup)
+        extratText(soup, urlBase)
+        extractLinks(soup, urlBase)
+        extracImgs(soup, urlBase)
 
 if __name__ == '__main__':
     main()
 
 #https://scrappingurlstwo-aouanptf499cdt98bpmjvg.streamlit.app/
 #https://docs.aiohttp.org/en/stable/client_quickstart.html
+
 
  
