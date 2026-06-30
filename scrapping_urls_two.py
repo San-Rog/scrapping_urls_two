@@ -9,7 +9,7 @@ async def main(url):
             st.write(resp.status)
             htmlText = await resp.text()
             soup = BeautifulSoup(htmlText , 'html.parser')
-            texto_limpo = soup.get_text(separator=' ', strip=True)
+            texto_limpo = soup.get_text(separator='\n', strip=True)
             st.write(texto_limpo)
 
 asyncio.run(main('http://www.tjma.jus.br/'))
