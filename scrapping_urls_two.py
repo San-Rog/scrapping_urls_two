@@ -37,7 +37,7 @@ def extracImgs(soup, url):
         roleUrls = [imgUrl for imgUrl in list(set(roleUrls)) if len(imgUrl)]
         roleImg = [imgUrl.replace(url, '').strip() for imgUrl in roleUrls]
         if roleUrls:
-            colunas = (spec=3, gap="small", vertical_alignment="center", border=True, width="stretch") 
+            colunas = (3, gap="small", vertical_alignment="center", border=True, width="stretch") 
             for i, imgUrl in enumerate(roleUrls):
                 st.write(imgUrl)
                 col = colunas[i % 3]
