@@ -1,5 +1,6 @@
 import aiohttp
 import asyncio
+import streamlit as st
 from bs4 import BeautifulSoup
 
 async def main():
@@ -9,7 +10,7 @@ async def main():
             html = await resp.text()
             soup = BeautifulSoup(html, 'html.parser')
             texto_limpo = soup.get_text(separator=' ', strip=True)
-            print(texto_limpo)
+            st.write(texto_limpo)
 
 asyncio.run(main())
 
