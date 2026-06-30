@@ -14,7 +14,7 @@ def validate(url):
 @st.cache_data      
 def textUrl(soup, url):
     links = []
-    for link in soup.find_all('href', href=True):
+    for link in soup.find_all('a'):
         href = link.get('href')
         if validate(href):  
             links.append(href)
