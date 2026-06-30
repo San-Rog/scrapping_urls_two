@@ -13,8 +13,8 @@ def validate(url):
  
 def extratText(soup, url):
     with st.spinner(text='Scrapping do texto do site {url}...', show_time=True, width="stretch"):
-        texto_limpo = soup.get_text(separator='\n', strip=True)
-        st.write(texto_limpo)
+        textClear = soup.get_text(separator='\n', strip=True)
+        st.write(textClear)
  
 def extractLinks(soup, url): 
     with st.spinner(text='Scrapping dos links do site {url}...', show_time=True, width="stretch"):
@@ -25,21 +25,22 @@ def extractLinks(soup, url):
                 st.write(href, len(href))
 
 def extracImgs(soup, url):
-    with st.spinner(text='Scrapping dos links do site {url}...', show_time=True, width="stretch"):
+    with st.spinner(text='Scrapping das imagens do site {url}...', show_time=True, width="stretch"):
         imagens = soup.find_all('img')
-        lista_urls = []
+        roleUrls = []
         for img in imagens:
             link = img.get('src')
             if link:
                 link_completo = urljoin(url, link)
-                lista_urls.append(link_completo)
-            lista_urls = list(set(lista_urls))
-            if lista_urls:
+                roleUrls.append(link_completo)
+            roleUrls = list(set(roleUrls))
+            if roleUrls:
                 colunas = st.columns(3) 
-                for i, img_url in enumerate(lista_urls):
-                    col = colunas[i % 3]
-                    with col:
-                        st.image(img_url, caption=f"Imagem {i+1}", use_column_width=True)
+                for i, imgUrl in enumerate(roleUrls):
+                    st.write(imgUrl)
+                    #col = colunas[i % 3]
+                    #with col:
+                    #    st.image(imgUrl, caption=f"Imagem {i+1}", use_column_width=True)
             else:
                 st.info("Nenhuma imagem foi encontrada nesta página.")
 
@@ -67,6 +68,8 @@ if __name__ == '__main__':
 #https://scrappingurlstwo-aouanptf499cdt98bpmjvg.streamlit.app/
 #https://docs.aiohttp.org/en/stable/client_quickstart.html
 
+
+ 
 
  
 
