@@ -4,15 +4,13 @@ import streamlit as st
 from urllib.parse import urljoin, urlparse
 from bs4 import BeautifulSoup
 
-@st.cache_data
 def validate(url):
     try:
         parsed = urlparse(url)
         return all([parsed.scheme, parsed.netloc])
     except ValueError:
         return False
-
-@st.cache_data       
+       
 def textUrl(soup, url):
     links = []
     linksAbs = []
@@ -101,10 +99,3 @@ if __name__ == '__main__':
 
 #https://scrappingurlstwo-aouanptf499cdt98bpmjvg.streamlit.app/
 #https://docs.aiohttp.org/en/stable/client_quickstart.html
-
-
- 
-
-
-
- 
