@@ -13,7 +13,7 @@ def validate(url):
         return False
 
 @st.cache_data       
-def textUrl(soup):
+def textUrl(soup, url):
     links = []
     linksAbs = []
     for link in soup.find_all('href', href=True):
