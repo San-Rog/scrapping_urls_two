@@ -1,5 +1,6 @@
 import aiohttp
 import asyncio
+import cv2
 import streamlit as st
 from urllib.parse import urljoin, urlparse
 from bs4 import BeautifulSoup
@@ -10,6 +11,16 @@ def validate(url):
         return all([parsed.scheme, parsed.netloc])
     except ValueError:
         return False
+        
+def checkImg(img):
+    img = cv2.imread(img)
+    if img is None:
+        return False
+    else:
+        if img.size == 0:
+            return False
+        else:
+            return True    
  
 def extratText(soup, url):
     with st.spinner(text='Scrapping do texto do site {url}...', show_time=True, width="stretch"):
@@ -33,7 +44,7 @@ def extracImgs(soup, url):
             if link:
                 linkFull = urljoin(url, link)
                 roleUrls.append(linkFull)
-            roleUrls = [imgUrl for imgUrl in list(set(roleUrls)) if len(imgUrl) > 0]
+            roleUrls = [imgUrl for imgUrl in list(set(roleUrls)) if checkImg(imgUrl)]
             roleImg = [imgUrl.replace(url, '').strip() for imgUrl in roleUrls]
             if roleUrls:
                 colunas = st.columns(spec=3) 
