@@ -36,7 +36,7 @@ async def scrap(url):
                 
 def main():
     urlBase = "http://www.tjma.jus.br/"
-    soup = asyncio.run(scrap(urlBase)
+    soup = asyncio.run(scrap(urlBase))
     if len(soup) > 0:
         extratText(soup)
         extractLinks(soup)
