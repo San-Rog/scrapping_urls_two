@@ -2,7 +2,6 @@ aiohttp
 asyncio
 streamlit
 beautifulsoup4
-opencv-python-headless
 
 
 
