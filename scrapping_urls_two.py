@@ -33,18 +33,18 @@ def extracImgs(soup, url):
             if link:
                 linkFull = urljoin(url, link)
                 roleUrls.append(linkFull)
-            st.write(roleUrls)
-            roleUrls = [imgUrl for imgUrl in list(set(roleUrls)) if len(imgUrl)]
-            roleImg = [imgUrl.replace(url, '').strip() for imgUrl in roleUrls]
-            if roleUrls:
-                colunas = st.columns(spec=3) 
-                for i, imgUrl in enumerate(roleUrls):
-                    st.write(imgUrl)
-                    col = colunas[i % 3]
-                    with col:
-                        st.image(imgUrl, caption=f"{roleImg[i]} - (imagem {i+1})", use_column_width=True)
-            else:
-                st.info("Nenhuma imagem foi encontrada nesta página.")
+        st.write(roleUrls)
+        roleUrls = [imgUrl for imgUrl in list(set(roleUrls)) if len(imgUrl)]
+        roleImg = [imgUrl.replace(url, '').strip() for imgUrl in roleUrls]
+        if roleUrls:
+            colunas = st.columns(spec=3) 
+            for i, imgUrl in enumerate(roleUrls):
+                st.write(imgUrl)
+                col = colunas[i % 3]
+                with col:
+                    st.image(imgUrl, caption=f"{roleImg[i]} - (imagem {i+1})", use_column_width=True)
+        else:
+            st.info("Nenhuma imagem foi encontrada nesta página.")
 
 async def scrap(url):
     async with aiohttp.ClientSession() as session:
