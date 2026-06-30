@@ -42,7 +42,7 @@ def extracImgs(soup, url):
                 st.write(imgUrl)
                 col = colunas[i % 3]
                 with col:
-                    colOne, colTwo = st.columns(spec=2, vertical_alignment="center", border=False, width="stretch"
+                    colOne, colTwo = st.columns(spec=2, vertical_alignment="center", border=False, width="stretch")
                     colOne.image(imgUrl, use_column_width=True)
                     colTwo.markdown(f"{roleImg[i]} - (imagem {i+1})")
         else:
@@ -77,3 +77,6 @@ if __name__ == '__main__':
 
 #https://scrappingurlstwo-aouanptf499cdt98bpmjvg.streamlit.app/
 #https://docs.aiohttp.org/en/stable/client_quickstart.html
+
+
+ 
