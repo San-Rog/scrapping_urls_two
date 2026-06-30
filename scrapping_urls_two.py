@@ -37,12 +37,14 @@ def extracImgs(soup, url):
         roleUrls = [imgUrl for imgUrl in list(set(roleUrls)) if len(imgUrl)]
         roleImg = [imgUrl.replace(url, '').strip() for imgUrl in roleUrls]
         if roleUrls:
-            colunas = (3, gap="small", vertical_alignment="center", border=True, width="stretch") 
+            colunas = st.columns(spec=3, gap="small", vertical_alignment="center", border=True, width="stretch") 
             for i, imgUrl in enumerate(roleUrls):
                 st.write(imgUrl)
                 col = colunas[i % 3]
                 with col:
-                    st.image(imgUrl, caption=f"{roleImg[i]} - (imagem {i+1})", use_column_width=True)
+                    colOne, colTwo = st.columns(spec=2, vertical_alignment="center", border=False, width="stretch"
+                    colOne.image(imgUrl, use_column_width=True)
+                    colTwo.markdown(f"{roleImg[i]} - (imagem {i+1})")
         else:
             st.info("Nenhuma imagem foi encontrada nesta página.")
 
@@ -75,6 +77,3 @@ if __name__ == '__main__':
 
 #https://scrappingurlstwo-aouanptf499cdt98bpmjvg.streamlit.app/
 #https://docs.aiohttp.org/en/stable/client_quickstart.html
-
-
- 
