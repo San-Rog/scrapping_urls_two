@@ -16,13 +16,13 @@ def extratText(soup, url):
         texto_limpo = soup.get_text(separator='\n', strip=True)
         st.write(texto_limpo)
  
-def extractLinks(soup): 
+def extractLinks(soup, url): 
     for link in soup.find_all('a'):
         href = link.get('href')
         if validate(href):  
             st.write(href, len(href))
 
-def extracImgs(soup):
+def extracImgs(soup, url):
     pass
 
 async def scrap(url):
@@ -48,6 +48,9 @@ if __name__ == '__main__':
 
 #https://scrappingurlstwo-aouanptf499cdt98bpmjvg.streamlit.app/
 #https://docs.aiohttp.org/en/stable/client_quickstart.html
+
+
+ 
 
 
  
