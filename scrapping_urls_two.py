@@ -33,7 +33,7 @@ def extracImgs(soup, url):
             if link:
                 linkFull = urljoin(url, link)
                 roleUrls.append(linkFull)
-            roleUrls = [imgUrl for imgUrl in list(set(roleUrls) if len(imgUrl) > 0)]
+            roleUrls = [imgUrl for imgUrl in list(set(roleUrls)) if len(imgUrl) > 0]
             if roleUrls:
                 colunas = st.columns(3) 
                 for i, imgUrl in enumerate(roleUrls):
