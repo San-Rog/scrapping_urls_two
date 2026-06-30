@@ -37,7 +37,7 @@ def extracImgs(soup, url):
         roleUrls = [imgUrl for imgUrl in list(set(roleUrls)) if len(imgUrl)]
         roleImg = [imgUrl.replace(url, '').strip() for imgUrl in roleUrls]
         if roleUrls:
-            colunas = st.columns(spec=3) 
+            colunas = (spec=3, gap="small", vertical_alignment="center", border=True, width="stretch") 
             for i, imgUrl in enumerate(roleUrls):
                 st.write(imgUrl)
                 col = colunas[i % 3]
@@ -65,6 +65,12 @@ def main():
         extracImgs(soup, urlBase)
 
 if __name__ == '__main__':
+    st.set_page_config(
+        page_title='Mescla de imagens',
+        page_icon=':material/image:',
+        layout='wide', 
+        initial_sidebar_state=None, 
+        menu_items=None)    
     main()
 
 #https://scrappingurlstwo-aouanptf499cdt98bpmjvg.streamlit.app/
