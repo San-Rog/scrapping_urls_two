@@ -31,9 +31,9 @@ def extracImgs(soup, url):
         for img in imagens:
             link = img.get('src')
             if link:
-                link_completo = urljoin(url, link)
-                roleUrls.append(link_completo)
-            roleUrls = list(set(roleUrls))
+                linkFull = urljoin(url, link)
+                roleUrls.append(linkFull)
+            roleUrls = [imgUrl for imgUrl in list(set(roleUrls) if len(imgUrl) > 0)]
             if roleUrls:
                 colunas = st.columns(3) 
                 for i, imgUrl in enumerate(roleUrls):
@@ -67,14 +67,6 @@ if __name__ == '__main__':
 
 #https://scrappingurlstwo-aouanptf499cdt98bpmjvg.streamlit.app/
 #https://docs.aiohttp.org/en/stable/client_quickstart.html
-
-
- 
-
- 
-
-
- 
 
 
  
