@@ -11,6 +11,10 @@ async def main(url):
             soup = BeautifulSoup(htmlText , 'html.parser')
             texto_limpo = soup.get_text(separator='\n', strip=True)
             st.write(texto_limpo)
+            for link in soup.find_all('a'):
+            href = link.get('href')
+            if href:  
+                st.write(href)
 
 asyncio.run(main('http://www.tjma.jus.br/'))
 
