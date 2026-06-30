@@ -4,25 +4,37 @@ import streamlit as st
 from urllib.parse import urljoin, urlparse
 from bs4 import BeautifulSoup
 
+@st.cache_data
 def validate(url):
     try:
         parsed = urlparse(url)
         return all([parsed.scheme, parsed.netloc])
     except ValueError:
         return False
- 
+
+@st.cache_data       
+def textUrl(soup):
+    links = []
+    linksAbs = []
+    for link in soup.find_all('href', href=True):
+        href = link.get('href')
+        if validate(href):  
+            links.append(href)
+            linksAbs.append(urljoin(url, href))
+    return(links, linksAbs)
+
 def extratText(soup, url):
     with st.spinner(text='Scrapping do texto do site {url}...', show_time=True, width="stretch"):
         textClear = soup.get_text(separator='\n', strip=True)
         st.write(textClear)
- 
+
 def extractLinks(soup, url): 
     with st.spinner(text='Scrapping dos links do site {url}...', show_time=True, width="stretch"):
-        links = soup.find_all('a')
+        links, linksAbs = textUrl(soup, url)
         for link in links:
-            href = link.get('href')
-            if validate(href):  
-                st.write(href, len(href))
+            st.write(link)
+        for linkAb in linksAbs:
+            st.write(linkAb)
 
 def extracImgs(soup, url):
     with st.spinner(text='Scrapping das imagens do site {url}...', show_time=True, width="stretch"):
@@ -49,6 +61,13 @@ def extracImgs(soup, url):
         else:
             st.info("Nenhuma imagem foi encontrada nesta página.")
 
+
+def extractFiles(soup, url): 
+    with st.spinner(text='Scrapping dos links do site {url}...', show_time=True, width="stretch"):
+        links = textUrl(soup)
+        for link in links:
+            st.write(link)
+
 async def scrap(url):
     async with aiohttp.ClientSession() as session:
         async with session.get(url) as resp:
@@ -66,6 +85,7 @@ def main():
         extratText(soup, urlBase)
         extractLinks(soup, urlBase)
         extracImgs(soup, urlBase)
+        extractFiles(soup, urlBase)
 
 if __name__ == '__main__':
     st.set_page_config(
