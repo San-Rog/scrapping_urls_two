@@ -21,6 +21,7 @@ def textUrl(soup, url):
         if validate(href):  
             links.append(href)
             linksAbs.append(urljoin(url, href))
+    st.write(links)
     return(links, linksAbs)
 
 def extratText(soup, url):
@@ -100,6 +101,10 @@ if __name__ == '__main__':
 
 #https://scrappingurlstwo-aouanptf499cdt98bpmjvg.streamlit.app/
 #https://docs.aiohttp.org/en/stable/client_quickstart.html
+
+
+ 
+
 
 
  
