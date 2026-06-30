@@ -10,7 +10,8 @@ def validate(url):
         return all([parsed.scheme, parsed.netloc])
     except ValueError:
         return False
-  
+
+@st.cache_data      
 def textUrl(soup, url):
     links = []
     for link in soup.find_all('href', href=True):
