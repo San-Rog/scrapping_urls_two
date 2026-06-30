@@ -73,7 +73,7 @@ async def scrap(url):
                 return ''
                 
 def main():
-    urlBase = "http://www.tjma.jus.br/"
+    urlBase = "https://ww2.trt2.jus.br/"
     soup = asyncio.run(scrap(urlBase))
     if len(soup) > 0:
         extratText(soup, urlBase)
@@ -92,3 +92,6 @@ if __name__ == '__main__':
 
 #https://scrappingurlstwo-aouanptf499cdt98bpmjvg.streamlit.app/
 #https://docs.aiohttp.org/en/stable/client_quickstart.html
+
+
+ 
