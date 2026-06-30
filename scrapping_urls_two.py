@@ -34,13 +34,14 @@ def extracImgs(soup, url):
                 linkFull = urljoin(url, link)
                 roleUrls.append(linkFull)
             roleUrls = [imgUrl for imgUrl in list(set(roleUrls)) if len(imgUrl) > 0]
+            roleImg = [imgUrl.replace(url, '').strip() for imgUrl in roleUrls]
             if roleUrls:
-                colunas = st.columns(3) 
+                colunas = st.columns(spec=3) 
                 for i, imgUrl in enumerate(roleUrls):
                     st.write(imgUrl)
                     col = colunas[i % 3]
                     with col:
-                        st.image(imgUrl, caption=f"{imgUrl} - (imagem {i+1})", use_column_width=True)
+                        st.image(imgUrl, caption=f"{roleImg[i]} - (imagem {i+1})", use_column_width=True)
             else:
                 st.info("Nenhuma imagem foi encontrada nesta página.")
 
