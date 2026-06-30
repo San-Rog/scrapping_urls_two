@@ -12,7 +12,6 @@ def validate(url):
         return False
  
 def extratText(soup):
-    with st.spinner("Procurando elementos textuais na URL 
     texto_limpo = soup.get_text(separator='\n', strip=True)
     st.write(texto_limpo)
  
