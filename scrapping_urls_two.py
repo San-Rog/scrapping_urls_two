@@ -45,7 +45,7 @@ def extracImgs(soup, url):
                     colOne, colTwo = st.columns(spec=2, vertical_alignment="center", border=False, width="stretch")
                     colOne.image(imgUrl, use_column_width=True)
                     colTwo.markdown(f"{roleImg[i]} - (imagem {i+1})")
-                st.divide()
+                st.divider()
         else:
             st.info("Nenhuma imagem foi encontrada nesta página.")
 
