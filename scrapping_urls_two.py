@@ -66,17 +66,15 @@ class extractElems():
                 if link:
                     linkFull = urljoin(self.url, link)
                     roleUrls.append(linkFull)
-            st.write(roleUrls)
             roleUrls = [imgUrl for imgUrl in list(set(roleUrls)) if len(imgUrl)]
             roleImg = [imgUrl.replace(self.url, '').strip() for imgUrl in roleUrls]
             if roleUrls:
                 colunas = st.columns(spec=3, gap="small", vertical_alignment="center", border=False, width="stretch") 
                 for i, imgUrl in enumerate(roleUrls):
-                    st.write(imgUrl)
                     col = colunas[i % 3]
                     with col:
                         colOne, colTwo = st.columns(spec=2, vertical_alignment="center", border=False, width="stretch")
-                        colOne.image(imgUrl, use_column_width=True)
+                        colOne.image(imgUrl, width="stretch")
                         colTwo.markdown(f"{roleImg[i]} - (imagem {i+1})")
                     st.space(size="small")
             else:
@@ -136,14 +134,23 @@ class operations():
     async def downImg(self):
         try:
             async with self.session.get(self.url) as response:
-                st.write(response.status)
                 if response.status == 200:
                     return await response.read()
         except Exception as error:
             st.markdown(error)
             st.markdown(self.url, unsafe_allow_html=True, width="stretch", 
                         text_alignment="left")
-            js_code = "".join([f"window.open('{url}', '_blank');" for url in [self.url]])
+            js_code = 
+            f"""
+            function baixarArquivo({self.url}, {os.path.basename(self.ulr)}) {
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = nomeArquivo; // Nome sugerido para o arquivo salvo
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+            """
             html_string = f"""
                 <script type="text/javascript">
                     {js_code}
