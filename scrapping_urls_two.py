@@ -166,7 +166,7 @@ class main():
             if st.button("Download imagens"):
                 arguments = [allImgs, "Baixar imagens...", "Baixar todas as imagens (ZIP)", "imagens_scraping.zip"]
             if st.button("Download arquivos"):
-                arguments = [allImgs, "Baixar arquivos...", "Baixar todos os arquivos (ZIP)", "arquivos_scraping.zip"]
+                arguments = [allFiles, "Baixar arquivos...", "Baixar todos os arquivos (ZIP)", "arquivos_scraping.zip"]
             if len(arguments):
                 objDown = downloads(arguments)
                 objDown.downFiles()                    
