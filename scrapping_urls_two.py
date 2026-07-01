@@ -13,6 +13,8 @@ class acessories():
     def __init__(self, soup, url, urls=None):
         self.soup = soup
         self.url = url
+        self.urls = urls
+        st.write('mmmmmm')
     
     def validate(self):
         try:
@@ -39,7 +41,7 @@ class acessories():
         return False
         
     def openUrls(self):
-        st.write(filesFail)
+        st.write(self.urls)
         st.write('*********************')
         js_code = "".join([f"window.open('{url}', '_blank');" for url in self.urls])
         html_string = f"""
@@ -192,7 +194,7 @@ class main():
             if len(filesFail) > 0:
                 st.write(filesFail)
                 if st.button("Abrir todos os links"):
-                    objAcessories = acessories(None, None, None)
+                    objAcessories = acessories(None, None, filesFail)
                     objAcessories.openUrls()
  
     def setPage(self):
