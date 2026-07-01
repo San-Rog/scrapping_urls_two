@@ -10,11 +10,12 @@ def validate(url):
         return all([parsed.scheme, parsed.netloc])
     except ValueError:
         return False
-   
+      
 def textUrl(soup, url):
     links = []
-    for link in soup.find_all('a'):
-        href = link.get('href')
+    fileSoup = soup.find_all("a", href=True)
+    for file in fileSoup:
+        href = link['href']
         if validate(href):  
             links.append(href)
     return links
