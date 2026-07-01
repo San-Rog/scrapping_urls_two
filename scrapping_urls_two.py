@@ -107,8 +107,7 @@ class downloads():
         with zipfile.ZipFile(zip_buffer, "w", zipfile.ZIP_DEFLATED) as zip_file:
             for i, img in enumerate(imagens_bytes):
                 if img:
-                    st.write(self.urls[i])
-                    zip_file.writestr(f"imagem_{i+1}.jpg", img)
+                    zip_file.writestr(os.path.basename(self.urls[i]), img)
         zip_data = zip_buffer.getvalue()
         st.download_button(
             label="📥 Baixar todas as imagens (ZIP)",
