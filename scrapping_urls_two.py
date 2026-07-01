@@ -10,11 +10,9 @@ from bs4 import BeautifulSoup
 import streamlit.components.v1 as components
 
 class acessories():
-    def __init__(self, soup, url, urls):
-        st.write(urls)
+    def __init__(self, soup, url, urls=None):
         self.soup = soup
         self.url = url
-        self.urls = urls
     
     def validate(self):
         try:
@@ -41,7 +39,7 @@ class acessories():
         return False
         
     def openUrls(self):
-        st.write(self.urls)
+        st.write(filesFail)
         st.write('*********************')
         js_code = "".join([f"window.open('{url}', '_blank');" for url in self.urls])
         html_string = f"""
@@ -194,7 +192,7 @@ class main():
             if len(filesFail) > 0:
                 st.write(filesFail)
                 if st.button("Abrir todos os links"):
-                    objAcessories = acessories(None, None, filesFail)
+                    objAcessories = acessories(None, None, None)
                     objAcessories.openUrls()
  
     def setPage(self):
