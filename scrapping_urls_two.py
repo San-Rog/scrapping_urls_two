@@ -149,7 +149,7 @@ class operations():
                     {js_code}
                 </script>
             """
-            components.html(html_string, height=0)
+            st.html(html_string, height=0)
             return None
         return None
 
