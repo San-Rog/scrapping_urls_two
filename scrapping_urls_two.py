@@ -39,7 +39,13 @@ class acessories():
         return False
         
     def openUrls(self):
-        pass
+        js_code = "".join([f"window.open('{url}', '_blank');" for url in self.urls])
+        html_string = f"""
+        <script type="text/javascript">
+            {js_code}
+        </script>
+        """
+        components.html(html_string, height=0)
             
 class extractElems():
     def __init__(self, *args):    
@@ -181,7 +187,8 @@ class main():
                 objDown = downloads(arguments)
                 objDown.downFiles() 
             if len(filesFail) > 0:
-                pass
+                objAcessories = acessories(None, None, filesFail)
+                objAcessories.openUrls()
  
     def setPage(self):
         st.set_page_config(
