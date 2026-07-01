@@ -189,8 +189,9 @@ class main():
                 objDown = downloads(arguments)
                 objDown.downFiles() 
             if len(filesFail) > 0:
-                objAcessories = acessories(None, None, filesFail)
-                objAcessories.openUrls()
+                if st.button("Abrir todos os links"):
+                    objAcessories = acessories(None, None, filesFail)
+                    objAcessories.openUrls()
  
     def setPage(self):
         st.set_page_config(
