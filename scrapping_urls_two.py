@@ -9,9 +9,10 @@ from urllib.parse import urljoin, urlparse
 from bs4 import BeautifulSoup
 
 class acessories():
-    def __init__(self, soup, url):
+    def __init__(self, soup, url, urls=None):
         self.soup = soup
         self.url = url
+        self.urls = urls
     
     def validate(self):
         try:
@@ -36,6 +37,9 @@ class acessories():
         if mime_type and 'text/html' not in mime_type:
             return True
         return False
+        
+    def openUrls(self):
+        pass
             
 class extractElems():
     def __init__(self, *args):    
@@ -177,11 +181,7 @@ class main():
                 objDown = downloads(arguments)
                 objDown.downFiles() 
             if len(filesFail) > 0:
-                for file in filesFail:
-                    fileHtml = f"""
-                        <meta http-equiv="refresh" content="0; url={file}">
-                    """
-                    st.markdown(fileHtml, unsafe_allow_html=True)
+                pass
  
     def setPage(self):
         st.set_page_config(
