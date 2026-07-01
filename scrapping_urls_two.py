@@ -6,9 +6,9 @@ from urllib.parse import urljoin, urlparse
 from bs4 import BeautifulSoup
 
 class acessories():
-    def __init__(self, *args):
-        self.soup = args[0]
-        self.url = args[1]
+    def __init__(self, soup, url):
+        self.soup = soup
+        self.url = url
     
     def validate(self):
         try:
@@ -17,10 +17,9 @@ class acessories():
         except ValueError:
             return False
       
-    def textUrl(self, soup, url):
+    def textUrl(self):
         allText = []
         fileSoup = soup.find_all("a", href=True)
-        objAcessories = acessories(href)
         for file in fileSoup:
             href = file['href']
             objAcessories = acessories(None, href)
@@ -75,9 +74,9 @@ class extractElems():
         return roleUrls
     
     def extractFiles(self): 
-        objAcessories = acessories()
+        objAcessories = acessories(self.soup, self.url)
         with st.spinner(text='Scrapping dos links do site {self.url}...', show_time=True, width="stretch"):
-            files = objAcessories.textUrl(self.soup, self.url)
+            files = objAcessories.textUrl()
             for file in files:
                 st.write(file)
 
