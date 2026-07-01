@@ -7,7 +7,7 @@ import io
 import streamlit as st
 from urllib.parse import urljoin, urlparse
 from bs4 import BeautifulSoup
-import streamlit.components.v1 as components
+from streamlit.components.v1 import html
 
 class acessories():
     def __init__(self, soup, url):
@@ -149,7 +149,7 @@ class operations():
                     {js_code}
                 </script>
             """
-            st.html(html_string, height=0)
+            html(html_string, height=0)
             return None
         return None
 
