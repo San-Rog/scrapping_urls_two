@@ -39,9 +39,9 @@ class acessories():
         return False
         
     def openUrls(self):
-        st.write(self.urls)
+        st.write(self.url)
         st.write('*********************')
-        js_code = "".join([f"window.open('{url}', '_blank');" for url in self.urls])
+        js_code = f"window.open('{self.url}', '_blank');" 
         html_string = f"""
         <script type="text/javascript">
             {js_code}
