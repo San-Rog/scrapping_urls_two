@@ -141,10 +141,11 @@ class operations():
                 if response.status == 200:
                     return await response.read()
         except Exception as error:
+            st.markdown(error)
             st.markdown(self.url, unsafe_allow_html=True, width="stretch", 
                         text_alignment="left")
             return None
-        #return None
+        return None
 
     async def downAll(self):
         tasks = []
