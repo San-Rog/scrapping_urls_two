@@ -169,7 +169,7 @@ class main():
                 arguments = [allImgs, "Baixar arquivos...", "Baixar todos os arquivos (ZIP)", "arquivos_scraping.zip"]
             if len(arguments):
                 objDown = downloads(arguments)
-                    
+                objDown.downFiles()                    
  
     def setPage(self):
         st.set_page_config(
