@@ -146,10 +146,10 @@ class operations():
 
     async def download_all(self):
         tasks = []
-        sem = asyncio.Semaphore(self.sem)
+        sem = asyncio.Semaphore(self.semaphore)
         async with aiohttp.ClientSession() as session:
             for url in self.urls:
-                objOperation = operations(url, None, session, self.semaphore)
+                objOperation = operations(url, None, session, sem)
                 tasks.append(objOperation.download_image())
             return await asyncio.gather(*tasks)
               
