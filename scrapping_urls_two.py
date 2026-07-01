@@ -56,7 +56,7 @@ class extractElems():
                     roleUrls.append(linkFull)
             st.write(roleUrls)
             roleUrls = [imgUrl for imgUrl in list(set(roleUrls)) if len(imgUrl)]
-            roleImg = [imgUrl.replace(url, '').strip() for imgUrl in roleUrls]
+            roleImg = [imgUrl.replace(self.url, '').strip() for imgUrl in roleUrls]
             if roleUrls:
                 colunas = st.columns(spec=3, gap="small", vertical_alignment="center", border=False, width="stretch") 
                 for i, imgUrl in enumerate(roleUrls):
