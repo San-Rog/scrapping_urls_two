@@ -135,7 +135,7 @@ class operations():
                     return ''
                     
     async def download_image(self):
-        async with semaphore:
+        async with self.semaphore:
             try:
                 async with self.session.get(self.url) as response:
                     if response.status == 200:
