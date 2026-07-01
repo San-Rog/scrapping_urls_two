@@ -77,26 +77,31 @@ class extractElems():
     def extractFiles(self): 
         objAcessories = acessories(self.soup, self.url)
         with st.spinner(text='Scrapping dos links do site {self.url}...', show_time=True, width="stretch"):
-            files = objAcessories.textUrl()
+            files = [file for file in objAcessories.textUrl() if os.path.splitext(file)[1].strip() != '']
             for file in files:
-                st.write(f"{file} <--> {os.path.splitext(file)[1]}")
+                st.write(file)
         return files        
 
-async def scrap(url):
-    async with aiohttp.ClientSession() as session:
-        async with session.get(url) as resp:
-            try:
-                htmlText = await resp.text()
-                soup = BeautifulSoup(htmlText, 'html.parser')   
-                return soup
-            except:
-                return ''
+class operations():
+    def __init__(self, *args):    
+        self.url = args[0]
+
+    async def scrap(self):
+        async with aiohttp.ClientSession() as session:
+            async with session.get(self.url) as resp:
+                try:
+                    htmlText = await resp.text()
+                    soup = BeautifulSoup(htmlText, 'html.parser')   
+                    return soup
+                except:
+                    return ''
                 
 class main():
     def __init__(self):
         self.setPage() 
         self.urlBase = "https://ww2.trt2.jus.br/"
-        self.soup = asyncio.run(scrap(self.urlBase))
+        objOperation = operations(self.urlBase)
+        self.soup = asyncio.run(objOperation.scrap())
         if len(self.soup) > 0:
             objExtract = extractElems(self.soup, self.urlBase)
             self.allText = objExtract.extractText()
