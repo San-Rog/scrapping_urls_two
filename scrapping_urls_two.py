@@ -79,7 +79,7 @@ class extractElems():
         with st.spinner(text='Scrapping dos links do site {self.url}...', show_time=True, width="stretch"):
             files = [file for file in objAcessories.textUrl() if os.path.splitext(file)[1].strip() != '']
             for file in files:
-                st.write(f"{file} ----- {os.path.splitext(file)}")
+                st.write(f"{file} ----- {os.path.splitext(file)[1]}")
         return files        
 
 class operations():
