@@ -30,8 +30,9 @@ class acessories():
         
     def urlIsFile(self):
         try:
-            response = requests.head(self.url, allow_redirects=True, timeout=2)
+            response = requests.head(self.url, allow_redirects=True, timeout=4)
             content_type = response.headers.get('Content-Type', '').lower()
+            st.write(content_type)
             if 'text/html' in content_type or response.status_code != 200:
                 return False
             return True
