@@ -98,7 +98,7 @@ class downloads():
         self.urls, self.textSpin, self.textDown, self.nameDown = arguments
     
     def downFiles(self): 
-        objOperation = operations(None, self.urls, None)
+        objOperation = operations(None, self.urls, None, None)
         with st.spinner(self.textSpin):
             loop = asyncio.new_event_loop()
             asyncio.set_event_loop(loop)
@@ -122,6 +122,7 @@ class operations():
         self.url = args[0]
         self.urls = args[1]
         self.session = args[2]
+        self.semaphore = args[3]
     
     async def scrap(self):
         async with aiohttp.ClientSession() as session:
@@ -134,19 +135,21 @@ class operations():
                     return ''
                     
     async def download_image(self):
-        try:
-            async with self.session.get(self.url) as response:
-                if response.status == 200:
-                    return await response.read()
-        except Exception as e:
-            st.error(f"Erro ao baixar {self.url}: {e}")
-        return None
+        async with semaphore:
+            try:
+                async with self.session.get(self.url) as response:
+                    if response.status == 200:
+                        return await response.read()
+            except Exception as e:
+                st.error(f"Erro ao baixar {self.url}: {e}")
+                return None
 
     async def download_all(self):
         tasks = []
+        sem = asyncio.Semaphore(self.sem)
         async with aiohttp.ClientSession() as session:
             for url in self.urls:
-                objOperation = operations(url, None, session)
+                objOperation = operations(url, None, session, self.semaphore)
                 tasks.append(objOperation.download_image())
             return await asyncio.gather(*tasks)
               
@@ -154,7 +157,7 @@ class main():
     def __init__(self):
         self.setPage() 
         urlBase = "https://www.tjma.jus.br"
-        objOperation = operations(urlBase, None, None)
+        objOperation = operations(urlBase, None, None, None)
         soup = asyncio.run(objOperation.scrap())
         if len(soup) > 0:
             objExtract = extractElems(soup, urlBase)
