@@ -192,6 +192,7 @@ class main():
                 objDown.downFiles() 
             if len(filesFail) > 0:
                 if st.button("Abrir todos os links"):
+                    st.write(filesFail)
                     objAcessories = acessories(None, None, filesFail)
                     objAcessories.openUrls()
  
