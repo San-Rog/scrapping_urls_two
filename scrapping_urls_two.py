@@ -108,12 +108,25 @@ class operations():
                 except:
                     return ''
     
+    async def download_imagem(session, url, nome_arquivo):
+        caminho_arquivo = os.path.join(DOWNLOAD_DIR, nome_arquivo)
+        try:
+            async with session.get(url) as response:
+                if response.status == 200:
+                    async with aiofiles.open(caminho_arquivo, mode='wb') as f:
+                        await f.write(await response.read())
+                    return True
+        except Exception as e:
+            st.error(f"Erro ao baixar {url}: {e}")
+        return False
+    
     async def downAllImages(self):
         async with aiohttp.ClientSession() as session:
             tarefas = []
+            objOperation = operations(None, None)
             for i, url in enumerate(self.urls):
                 nome_arquivo = f"imagem_{i+1}.jpg"
-                tarefas.append(download_imagem(session, url, nome_arquivo))
+                tarefas.append(objOperation.download_imagem(session, url, nome_arquivo))
             resultados = await asyncio.gather(*tarefas)
             return resultados
                 
