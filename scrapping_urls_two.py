@@ -95,6 +95,7 @@ class operations():
     def __init__(self, *args):    
         self.url = args[0]
         self.urls = args[1]
+        st.write(self.urls)
 
     async def scrap(self):
         async with aiohttp.ClientSession() as session:
