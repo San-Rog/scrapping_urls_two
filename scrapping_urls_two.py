@@ -1,6 +1,7 @@
 import aiohttp
 import asyncio
 import mimetypes
+import zipfile
 import os
 import streamlit as st
 from urllib.parse import urljoin, urlparse
@@ -107,10 +108,14 @@ class operations():
                 except:
                     return ''
     
-    async def fetch_all_images(self):
+    async def downAllImages(self):
         async with aiohttp.ClientSession() as session:
-            tasks = [fetch_image(session, url) for url in self.urls]
-            return await asyncio.gather(*tasks)
+            tarefas = []
+            for i, url in enumerate(self.urls):
+                nome_arquivo = f"imagem_{i+1}.jpg"
+                tarefas.append(download_imagem(session, url, nome_arquivo))
+            resultados = await asyncio.gather(*tarefas)
+            return resultados
                 
 class main():
     def __init__(self):
@@ -124,10 +129,11 @@ class main():
             allLinks = objExtract.extractLinks()
             allImgs = objExtract.extracImgs()
             allFiles = objExtract.extractFiles()
-            loop = asyncio.new_event_loop()
-            asyncio.set_event_loop(loop)
             objOperation = operations(None, allImgs)
-            results = loop.run_until_complete(objOperation.fetch_all_images())
+            with st.spinner("Baixando imagens em alta velocidade..."):
+                loop = asyncio.new_event_loop()
+                asyncio.set_event_loop(loop)
+                sucesso = loop.run_until_complete(objOperation.downAllImages())
      
     def setPage(self):
         st.set_page_config(
