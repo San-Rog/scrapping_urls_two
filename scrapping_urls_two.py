@@ -79,7 +79,7 @@ class extractElems():
         with st.spinner(text='Scrapping dos links do site {self.url}...', show_time=True, width="stretch"):
             files = [file for file in objAcessories.textUrl() if os.path.splitext(file)[1].strip() != '']
             for file in files:
-                st.write(file)
+                st.write(f"{file} ----- {os.path.splitext(file)}")
         return files        
 
 class operations():
@@ -99,15 +99,15 @@ class operations():
 class main():
     def __init__(self):
         self.setPage() 
-        self.urlBase = "https://ww2.trt2.jus.br/"
-        objOperation = operations(self.urlBase)
-        self.soup = asyncio.run(objOperation.scrap())
+        urlBase = "https://ww2.trt2.jus.br/"
+        objOperation = operations(urlBase)
+        soup = asyncio.run(objOperation.scrap())
         if len(self.soup) > 0:
-            objExtract = extractElems(self.soup, self.urlBase)
-            self.allText = objExtract.extractText()
-            self.allLinks = objExtract.extractLinks()
-            self.allImgs = objExtract.extracImgs()
-            self.allFiles = objExtract.extractFiles()
+            objExtract = extractElems(soup, urlBase)
+            allText = objExtract.extractText()
+            allLinks = objExtract.extractLinks()
+            allImgs = objExtract.extracImgs()
+            allFiles = objExtract.extractFiles()
     
     def setPage(self):
         st.set_page_config(
