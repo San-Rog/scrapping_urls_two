@@ -1,6 +1,6 @@
 import aiohttp
 import asyncio
-import requests
+import mimetypes
 import os
 import streamlit as st
 from urllib.parse import urljoin, urlparse
@@ -29,15 +29,11 @@ class acessories():
         return allText
         
     def urlIsFile(self):
-        try:
-            response = requests.head(self.url, allow_redirects=True, timeout=4)
-            content_type = response.headers.get('Content-Type', '').lower()
-            st.write(content_type)
-            if 'text/html' in content_type or response.status_code != 200:
-                return False
+        parsed_url = urlparse(self.url)
+        mime_type, _ = mimetypes.guess_type(parsed_url.path)
+        if mime_type and 'text/html' not in mime_type:
             return True
-        except requests.RequestException:
-            return False
+        return False
             
 class extractElems():
     def __init__(self, *args):    
@@ -136,3 +132,4 @@ if __name__ == '__main__':
 
 
  
+
