@@ -2,7 +2,7 @@ import aiohttp
 import asyncio
 import mimetypes
 import os
-import zipfile 
+import zipfile
 import io
 import streamlit as st
 from urllib.parse import urljoin, urlparse
@@ -41,6 +41,7 @@ class acessories():
         
     def openUrls(self):
         st.write(self.urls)
+        st.write('está tudo aqui')
         js_code = "".join([f"window.open('{url}', '_blank');" for url in self.urls])
         html_string = f"""
         <script type="text/javascript">
