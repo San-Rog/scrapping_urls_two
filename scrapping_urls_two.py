@@ -84,10 +84,12 @@ class extractElems():
         objAcessories = acessories(self.soup, self.url)
         with st.spinner(text='Scrapping dos links do site {self.url}...', show_time=True, width="stretch"):
             files = [file for file in objAcessories.textUrl() if os.path.splitext(file)[1].strip() != '']
+            newFiles = []
             for file in files:
                 objAcessories = acessories(None, file)
-                st.write(f"{file} -- {objAcessories.urlIsFile()}")
-        return files        
+                if objAcessories.urlIsFile():
+                    newFiles.append(file)
+        return newFiles        
 
 class operations():
     def __init__(self, *args):    
@@ -115,6 +117,7 @@ class main():
             allLinks = objExtract.extractLinks()
             allImgs = objExtract.extracImgs()
             allFiles = objExtract.extractFiles()
+            st.write(allFiles)
     
     def setPage(self):
         st.set_page_config(
@@ -132,4 +135,3 @@ if __name__ == '__main__':
 
 
  
-
