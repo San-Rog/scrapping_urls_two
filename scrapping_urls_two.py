@@ -106,8 +106,8 @@ class downloads():
         zip_buffer = io.BytesIO()
         with zipfile.ZipFile(zip_buffer, "w", zipfile.ZIP_DEFLATED) as zip_file:
             for i, img in enumerate(imagens_bytes):
-                st.write(img)
                 if img:
+                    st.write(self.urls[i])
                     zip_file.writestr(f"imagem_{i+1}.jpg", img)
         zip_data = zip_buffer.getvalue()
         st.download_button(
