@@ -30,7 +30,7 @@ class acessories():
         
     def urlIsFile(self):
         try:
-            response = requests.head(self.url, allow_redirects=True, timeout=5)
+            response = requests.head(self.url, allow_redirects=True, timeout=2)
             content_type = response.headers.get('Content-Type', '').lower()
             if 'text/html' in content_type or response.status_code != 200:
                 return False
@@ -86,9 +86,10 @@ class extractElems():
     def extractFiles(self): 
         objAcessories = acessories(self.soup, self.url)
         with st.spinner(text='Scrapping dos links do site {self.url}...', show_time=True, width="stretch"):
-            files = [file for file in objAcessories.textUrl() if objAcessories.urlIsFile()]
+            files = [file for file in objAcessories.textUrl() if os.path.splitext(file)[1].strip() != '']
             for file in files:
-                pass
+                objAcessories = acessories(None, file)
+                st.write(f"{file} -- {objAcessories.urlIsFile()}")
         return files        
 
 class operations():
