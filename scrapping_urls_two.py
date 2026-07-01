@@ -47,7 +47,7 @@ class extractElems():
            
     def extracImgs(self):
         with st.spinner(text='Scrapping das imagens do site {self.url}...', show_time=True, width="stretch"):
-            imagens = soup.find_all('img')
+            imagens = self.soup.find_all('img')
             roleUrls = []
             for img in imagens:
                 link = img.get('src')
