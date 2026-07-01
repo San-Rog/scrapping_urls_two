@@ -12,12 +12,13 @@ def validate(url):
         return False
       
 def textUrl(soup, url):
-    links = []
+    allText = []
+    fileSoup = soup.find_all("a", href=True)
     for file in fileSoup:
-        href = link.get('href')
+        href = file['href']
         if validate(href):  
-            links.append(href)
-    return links
+            allText.append(href)
+    return allText
 
 def extratText(soup, url):
     with st.spinner(text='Scrapping do texto do site {url}...', show_time=True, width="stretch"):
