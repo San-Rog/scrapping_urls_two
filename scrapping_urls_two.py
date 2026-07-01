@@ -52,7 +52,7 @@ class extractElems():
             for img in imagens:
                 link = img.get('src')
                 if link:
-                    linkFull = urljoin(url, link)
+                    linkFull = urljoin(self.url, link)
                     roleUrls.append(linkFull)
             st.write(roleUrls)
             roleUrls = [imgUrl for imgUrl in list(set(roleUrls)) if len(imgUrl)]
