@@ -98,10 +98,11 @@ class downloads():
         self.urls = args[0]
     
     def downImages(self): 
+        objOperation = operations(None, self.urls, None)
         with st.spinner("Baixando imagens..."):
             loop = asyncio.new_event_loop()
             asyncio.set_event_loop(loop)
-            imagens_bytes = loop.run_until_complete(download_all(urls_imagens))
+            imagens_bytes = loop.run_until_complete(objOperation.download_all())
         zip_buffer = io.BytesIO()
         with zipfile.ZipFile(zip_buffer, "w", zipfile.ZIP_DEFLATED) as zip_file:
             for i, img in enumerate(imagens_bytes):
@@ -141,7 +142,7 @@ class operations():
             st.error(f"Erro ao baixar {self.url}: {e}")
         return None
 
-    async def download_all(urls):
+    async def download_all(self):
         tasks = []
         async with aiohttp.ClientSession() as session:
             for url in self.urls:
