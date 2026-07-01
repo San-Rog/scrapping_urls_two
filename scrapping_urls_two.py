@@ -10,7 +10,8 @@ from bs4 import BeautifulSoup
 import streamlit.components.v1 as components
 
 class acessories():
-    def __init__(self, soup, url, urls=None):
+    def __init__(self, soup, url, urls):
+        st.write(urls)
         self.soup = soup
         self.url = url
         self.urls = urls
