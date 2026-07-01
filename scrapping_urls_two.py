@@ -6,12 +6,13 @@ from urllib.parse import urljoin, urlparse
 from bs4 import BeautifulSoup
 
 class acessories():
-    def __init__(self):    
-        pass
+    def __init__(self, soup=None, url):
+        self.soup = soup
+        self.url = url
     
-    def validate(self, url):
+    def validate(self):
         try:
-            parsed = urlparse(url)
+            parsed = urlparse(self.url)
             return all([parsed.scheme, parsed.netloc])
         except ValueError:
             return False
@@ -19,10 +20,11 @@ class acessories():
     def textUrl(self, soup, url):
         allText = []
         fileSoup = soup.find_all("a", href=True)
-        objAcessories = acessories()
+        objAcessories = acessories(href)
         for file in fileSoup:
             href = file['href']
-            if objAcessories.validate(href):  
+            objAcessories = acessories(href)
+            if objAcessories.validate():  
                 allText.append(href)
         return allText
     
