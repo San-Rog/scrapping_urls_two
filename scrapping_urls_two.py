@@ -1,5 +1,6 @@
 import aiohttp
 import asyncio
+import requests
 import streamlit as st
 from urllib.parse import urljoin, urlparse
 from bs4 import BeautifulSoup
@@ -26,23 +27,26 @@ class acessories():
         return allText
     
 class extractElems():
-    def __init__(self):    
-        pass
-    
-    def extractText(self, soup, url):
-        with st.spinner(text='Scrapping do texto do site {url}...', show_time=True, width="stretch"):
-            textClear = soup.get_text(separator='\n', strip=True)
+    def __init__(self, *args):    
+        self.soup = args[0]
+        self.url = url[1]
+        
+    def extractText(self):
+        with st.spinner(text='Scrapping do texto do site {self.url}...', show_time=True, width="stretch"):
+            textClear = self.soup.get_text(separator='\n', strip=True)
             st.write(textClear)
+        return textClear
 
-    def extractLinks(self, soup, url): 
+    def extractLinks(self): 
         objAcessories = acessories()
-        with st.spinner(text='Scrapping dos links do site {url}...', show_time=True, width="stretch"):
-            links = objAcessories.textUrl(soup, url)
+        with st.spinner(text='Scrapping dos links do site {self.url}...', show_time=True, width="stretch"):
+            links = objAcessories.textUrl(self.soup, self.url)
             for link in links:
                 st.write(link)
+        return links
            
-    def extracImgs(self, soup, url):
-        with st.spinner(text='Scrapping das imagens do site {url}...', show_time=True, width="stretch"):
+    def extracImgs(self):
+        with st.spinner(text='Scrapping das imagens do site {self.url}...', show_time=True, width="stretch"):
             imagens = soup.find_all('img')
             roleUrls = []
             for img in imagens:
@@ -57,6 +61,7 @@ class extractElems():
                 colunas = st.columns(spec=3, gap="small", vertical_alignment="center", border=False, width="stretch") 
                 for i, imgUrl in enumerate(roleUrls):
                     st.write(imgUrl)
+                    
                     col = colunas[i % 3]
                     with col:
                         colOne, colTwo = st.columns(spec=2, vertical_alignment="center", border=False, width="stretch")
@@ -65,14 +70,14 @@ class extractElems():
                     st.divider()
             else:
                 st.info("Nenhuma imagem foi encontrada nesta página.")
-
-
-    def extractFiles(self, soup, url): 
+        return roleUrls
+    
+    def extractFiles(self): 
         objAcessories = acessories()
-        with st.spinner(text='Scrapping dos links do site {url}...', show_time=True, width="stretch"):
-            links = objAcessories.textUrl(soup, url)
-            for link in links:
-                st.write(link)
+        with st.spinner(text='Scrapping dos links do site {self.url}...', show_time=True, width="stretch"):
+            files = objAcessories.textUrl(self.soup, self.url)
+            for file in files:
+                st.write(file)
 
 async def scrap(url):
     async with aiohttp.ClientSession() as session:
@@ -90,11 +95,11 @@ class main():
         self.urlBase = "https://ww2.trt2.jus.br/"
         self.soup = asyncio.run(scrap(self.urlBase))
         if len(self.soup) > 0:
-            objExtract = extractElems()
-            objExtract.extractText(self.soup, self.urlBase)
-            objExtract.extractLinks(self.soup, self.urlBase)
-            objExtract.extracImgs(self.soup, self.urlBase)
-            objExtract.extractFiles(self.soup, self.urlBase)
+            objExtract = extractElems(self.soup, self.urlBase)
+            self.allText = objExtract.extractText()
+            self.allLinks = objExtract.extractLinks()
+            self.allImgs = objExtract.extracImgs()
+            self.allDowns = objExtract.extractFiles()
     
     def setPage(self):
         st.set_page_config(
