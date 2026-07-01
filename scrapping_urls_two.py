@@ -37,17 +37,6 @@ class acessories():
         if mime_type and 'text/html' not in mime_type:
             return True
         return False
-        
-    def openUrls(self):
-        st.write(self.url)
-        st.write('*********************')
-        js_code = f"window.open('{self.url}', '_blank');" 
-        html_string = f"""
-        <script type="text/javascript">
-            {js_code}
-        </script>
-        """
-        components.html(html_string, height=0)
             
 class extractElems():
     def __init__(self, *args):    
@@ -152,12 +141,10 @@ class operations():
                 if response.status == 200:
                     return await response.read()
         except Exception as error:
-            objAcessories = acessories(None, self.url)
-            objAcessories.openUrls()
             st.markdown(self.url, unsafe_allow_html=True, width="stretch", 
                         text_alignment="left")
             return None
-        return None
+        #return None
 
     async def downAll(self):
         tasks = []
@@ -169,8 +156,6 @@ class operations():
               
 class main():
     def __init__(self):
-        global filesFail
-        filesFail = []
         self.setPage() 
         urlBase = "https://www.tjma.jus.br/"
         objOperation = operations(urlBase, None, None)
