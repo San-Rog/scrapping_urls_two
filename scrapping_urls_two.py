@@ -102,7 +102,7 @@ class main():
         urlBase = "https://ww2.trt2.jus.br/"
         objOperation = operations(urlBase)
         soup = asyncio.run(objOperation.scrap())
-        if len(self.soup) > 0:
+        if len(soup) > 0:
             objExtract = extractElems(soup, urlBase)
             allText = objExtract.extractText()
             allLinks = objExtract.extractLinks()
