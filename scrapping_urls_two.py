@@ -4,64 +4,72 @@ import streamlit as st
 from urllib.parse import urljoin, urlparse
 from bs4 import BeautifulSoup
 
-def validate(url):
-    try:
-        parsed = urlparse(url)
-        return all([parsed.scheme, parsed.netloc])
-    except ValueError:
-        return False
+class acessories():
+    def __init__(self):    
+        pass
+    
+    def validate(self, url):
+        try:
+            parsed = urlparse(url)
+            return all([parsed.scheme, parsed.netloc])
+        except ValueError:
+            return False
       
-def textUrl(soup, url):
-    allText = []
-    fileSoup = soup.find_all("a", href=True)
-    for file in fileSoup:
-        href = file['href']
-        if validate(href):  
-            allText.append(href)
-    return allText
+    def textUrl(_self, soup, url):
+        allText = []
+        fileSoup = soup.find_all("a", href=True)
+        for file in fileSoup:
+            href = file['href']
+            if validate(href):  
+                allText.append(href)
+        return allText
+    
+class extractElems():
+    def __init__(self):    
+        pass
+    
+    def extractText(self, soup, url):
+        with st.spinner(text='Scrapping do texto do site {url}...', show_time=True, width="stretch"):
+            textClear = soup.get_text(separator='\n', strip=True)
+            st.write(textClear)
 
-def extratText(soup, url):
-    with st.spinner(text='Scrapping do texto do site {url}...', show_time=True, width="stretch"):
-        textClear = soup.get_text(separator='\n', strip=True)
-        st.write(textClear)
-
-def extractLinks(soup, url): 
-    with st.spinner(text='Scrapping dos links do site {url}...', show_time=True, width="stretch"):
-        links = textUrl(soup, url)
-        for link in links:
-            st.write(link)
-       
-def extracImgs(soup, url):
-    with st.spinner(text='Scrapping das imagens do site {url}...', show_time=True, width="stretch"):
-        imagens = soup.find_all('img')
-        roleUrls = []
-        for img in imagens:
-            link = img.get('src')
-            if link:
-                linkFull = urljoin(url, link)
-                roleUrls.append(linkFull)
-        st.write(roleUrls)
-        roleUrls = [imgUrl for imgUrl in list(set(roleUrls)) if len(imgUrl)]
-        roleImg = [imgUrl.replace(url, '').strip() for imgUrl in roleUrls]
-        if roleUrls:
-            colunas = st.columns(spec=3, gap="small", vertical_alignment="center", border=False, width="stretch") 
-            for i, imgUrl in enumerate(roleUrls):
-                st.write(imgUrl)
-                col = colunas[i % 3]
-                with col:
-                    colOne, colTwo = st.columns(spec=2, vertical_alignment="center", border=False, width="stretch")
-                    colOne.image(imgUrl, use_column_width=True)
-                    colTwo.markdown(f"{roleImg[i]} - (imagem {i+1})")
-                st.divider()
-        else:
-            st.info("Nenhuma imagem foi encontrada nesta página.")
+    def extractLinks(self, soup, url): 
+        with st.spinner(text='Scrapping dos links do site {url}...', show_time=True, width="stretch"):
+            links = textUrl(soup, url)
+            for link in links:
+                st.write(link)
+           
+    def extracImgs(self, soup, url):
+        with st.spinner(text='Scrapping das imagens do site {url}...', show_time=True, width="stretch"):
+            imagens = soup.find_all('img')
+            roleUrls = []
+            for img in imagens:
+                link = img.get('src')
+                if link:
+                    linkFull = urljoin(url, link)
+                    roleUrls.append(linkFull)
+            st.write(roleUrls)
+            roleUrls = [imgUrl for imgUrl in list(set(roleUrls)) if len(imgUrl)]
+            roleImg = [imgUrl.replace(url, '').strip() for imgUrl in roleUrls]
+            if roleUrls:
+                colunas = st.columns(spec=3, gap="small", vertical_alignment="center", border=False, width="stretch") 
+                for i, imgUrl in enumerate(roleUrls):
+                    st.write(imgUrl)
+                    col = colunas[i % 3]
+                    with col:
+                        colOne, colTwo = st.columns(spec=2, vertical_alignment="center", border=False, width="stretch")
+                        colOne.image(imgUrl, use_column_width=True)
+                        colTwo.markdown(f"{roleImg[i]} - (imagem {i+1})")
+                    st.divider()
+            else:
+                st.info("Nenhuma imagem foi encontrada nesta página.")
 
 
-def extractFiles(soup, url): 
-    with st.spinner(text='Scrapping dos links do site {url}...', show_time=True, width="stretch"):
-        links = textUrl(soup, url)
-        for link in links:
-            st.write(link)
+    def extractFiles(self, soup, url): 
+        with st.spinner(text='Scrapping dos links do site {url}...', show_time=True, width="stretch"):
+            links = textUrl(soup, url)
+            for link in links:
+                st.write(link)
 
 async def scrap(url):
     async with aiohttp.ClientSession() as session:
@@ -73,22 +81,27 @@ async def scrap(url):
             except:
                 return ''
                 
-def main():
-    urlBase = "https://ww2.trt2.jus.br/"
-    soup = asyncio.run(scrap(urlBase))
-    if len(soup) > 0:
-        extratText(soup, urlBase)
-        extractLinks(soup, urlBase)
-        extracImgs(soup, urlBase)
-        extractFiles(soup, urlBase)
+class main():
+    def __init__(self):
+        self.setPage() 
+        self.urlBase = "https://ww2.trt2.jus.br/"
+        self.soup = asyncio.run(scrap(urlBase))
+        if len(self.soup) > 0:
+            objExtract = extractElem
+            objExtract.extractText(self.soup, urlBase)
+            objExtract.extractLinks(self.soup, urlBase)
+            objExtract.extracImgs(self.soup, urlBase)
+            objExtract.extractFiles(self.soup, urlBase)
+    
+    def setPage(self):
+        st.set_page_config(
+            page_title='Mescla de imagens',
+            page_icon=':material/image:',
+            layout='wide', 
+            initial_sidebar_state=None, 
+            menu_items=None) 
 
 if __name__ == '__main__':
-    st.set_page_config(
-        page_title='Mescla de imagens',
-        page_icon=':material/image:',
-        layout='wide', 
-        initial_sidebar_state=None, 
-        menu_items=None)    
     main()
 
 #https://scrappingurlstwo-aouanptf499cdt98bpmjvg.streamlit.app/
