@@ -1,6 +1,7 @@
 import aiohttp
 import asyncio
 import requests
+import os
 import streamlit as st
 from urllib.parse import urljoin, urlparse
 from bs4 import BeautifulSoup
@@ -78,7 +79,7 @@ class extractElems():
         with st.spinner(text='Scrapping dos links do site {self.url}...', show_time=True, width="stretch"):
             files = objAcessories.textUrl()
             for file in files:
-                st.write(f"{file} <--> {file.endswith()}")
+                st.write(f"{file} <--> {os.path.splitext(file)[1]}")
         return files        
 
 async def scrap(url):
