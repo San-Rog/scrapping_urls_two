@@ -98,7 +98,7 @@ class downloads():
         self.urls, self.textSpin, self.textDown, self.nameDown = arguments
     
     def downFiles(self): 
-        objOperation = operations(None, self.urls, None, None)
+        objOperation = operations(None, self.urls, None, 2)
         with st.spinner(self.textSpin):
             loop = asyncio.new_event_loop()
             asyncio.set_event_loop(loop)
