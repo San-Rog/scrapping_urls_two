@@ -19,7 +19,7 @@ class acessories():
       
     def textUrl(self):
         allText = []
-        fileSoup = soup.find_all("a", href=True)
+        fileSoup = self.soup.find_all("a", href=True)
         for file in fileSoup:
             href = file['href']
             objAcessories = acessories(None, href)
