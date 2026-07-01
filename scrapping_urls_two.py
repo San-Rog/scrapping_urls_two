@@ -27,7 +27,17 @@ class acessories():
             if objAcessories.validate():  
                 allText.append(href)
         return allText
-    
+        
+    def urlIsFile(self):
+        try:
+            response = requests.head(self.url, allow_redirects=True, timeout=5)
+            content_type = response.headers.get('Content-Type', '').lower()
+            if 'text/html' in content_type or response.status_code != 200:
+                return False
+            return True
+        except requests.RequestException:
+            return False
+            
 class extractElems():
     def __init__(self, *args):    
         self.soup = args[0]
@@ -63,7 +73,6 @@ class extractElems():
                 colunas = st.columns(spec=3, gap="small", vertical_alignment="center", border=False, width="stretch") 
                 for i, imgUrl in enumerate(roleUrls):
                     st.write(imgUrl)
-                    
                     col = colunas[i % 3]
                     with col:
                         colOne, colTwo = st.columns(spec=2, vertical_alignment="center", border=False, width="stretch")
@@ -77,9 +86,9 @@ class extractElems():
     def extractFiles(self): 
         objAcessories = acessories(self.soup, self.url)
         with st.spinner(text='Scrapping dos links do site {self.url}...', show_time=True, width="stretch"):
-            files = [file for file in objAcessories.textUrl() if os.path.splitext(file)[1].strip() != '']
+            files = [file for file in objAcessories.textUrl() if objAcessories.urlIsFile()]
             for file in files:
-                st.write(f"{file} ----- {os.path.splitext(file)[1]}")
+                pass
         return files        
 
 class operations():
