@@ -15,7 +15,7 @@ class acessories():
         except ValueError:
             return False
       
-    def textUrl(_self, soup, url):
+    def textUrl(self, soup, url):
         allText = []
         fileSoup = soup.find_all("a", href=True)
         for file in fileSoup:
