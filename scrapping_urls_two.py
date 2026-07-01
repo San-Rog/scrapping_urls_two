@@ -6,9 +6,9 @@ from urllib.parse import urljoin, urlparse
 from bs4 import BeautifulSoup
 
 class acessories():
-    def __init__(self, soup=None, url):
-        self.soup = soup
-        self.url = url
+    def __init__(self, *args):
+        self.soup = args[0]
+        self.url = args[1]
     
     def validate(self):
         try:
@@ -23,7 +23,7 @@ class acessories():
         objAcessories = acessories(href)
         for file in fileSoup:
             href = file['href']
-            objAcessories = acessories(href)
+            objAcessories = acessories(None, href)
             if objAcessories.validate():  
                 allText.append(href)
         return allText
