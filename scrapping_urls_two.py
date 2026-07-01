@@ -85,7 +85,7 @@ class main():
     def __init__(self):
         self.setPage() 
         self.urlBase = "https://ww2.trt2.jus.br/"
-        self.soup = asyncio.run(scrap(urlBase))
+        self.soup = asyncio.run(scrap(self.urlBase))
         if len(self.soup) > 0:
             objExtract = extractElem
             objExtract.extractText(self.soup, urlBase)
