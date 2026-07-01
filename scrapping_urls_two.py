@@ -18,9 +18,10 @@ class acessories():
     def textUrl(self, soup, url):
         allText = []
         fileSoup = soup.find_all("a", href=True)
+        objAcessories = acessories()
         for file in fileSoup:
             href = file['href']
-            if validate(href):  
+            if objAcessories.validate(href):  
                 allText.append(href)
         return allText
     
@@ -34,8 +35,9 @@ class extractElems():
             st.write(textClear)
 
     def extractLinks(self, soup, url): 
+        objAcessories = acessories()
         with st.spinner(text='Scrapping dos links do site {url}...', show_time=True, width="stretch"):
-            links = textUrl(soup, url)
+            links = objAcessories.textUrl(soup, url)
             for link in links:
                 st.write(link)
            
@@ -66,8 +68,9 @@ class extractElems():
 
 
     def extractFiles(self, soup, url): 
+        objAcessories = acessories()
         with st.spinner(text='Scrapping dos links do site {url}...', show_time=True, width="stretch"):
-            links = textUrl(soup, url)
+            links = objAcessories.textUrl(soup, url)
             for link in links:
                 st.write(link)
 
