@@ -29,7 +29,7 @@ class acessories():
 class extractElems():
     def __init__(self, *args):    
         self.soup = args[0]
-        self.url = url[1]
+        self.url = args[1]
         
     def extractText(self):
         with st.spinner(text='Scrapping do texto do site {self.url}...', show_time=True, width="stretch"):
