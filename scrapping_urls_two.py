@@ -41,7 +41,7 @@ class acessories():
         
     def openUrls(self):
         st.write(self.urls)
-        st.write('está tudo aqui')
+        st.write('*********************')
         js_code = "".join([f"window.open('{url}', '_blank');" for url in self.urls])
         html_string = f"""
         <script type="text/javascript">
