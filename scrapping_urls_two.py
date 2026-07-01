@@ -10,10 +10,9 @@ from bs4 import BeautifulSoup
 import streamlit.components.v1 as components
 
 class acessories():
-    def __init__(self, soup, url, urls=None):
+    def __init__(self, soup, url):
         self.soup = soup
         self.url = url
-        self.urls = urls
     
     def validate(self):
         try:
@@ -153,7 +152,8 @@ class operations():
                 if response.status == 200:
                     return await response.read()
         except Exception as error:
-            filesFail.append(self.url)
+            objAcessories = acessories(None, self.url)
+            objAcessories.openUrls()
             st.markdown(self.url, unsafe_allow_html=True, width="stretch", 
                         text_alignment="left")
             return None
@@ -191,13 +191,7 @@ class main():
             if len(arguments):
                 objDown = downloads(arguments)
                 objDown.downFiles() 
-            if len(filesFail) > 0:
-                st.write('mmmm')
-                st.write(filesFail)
-                if st.button("Abrir todos os links"):
-                    objAcessories = acessories(None, None, filesFail)
-                    objAcessories.openUrls()
- 
+    
     def setPage(self):
         st.set_page_config(
             page_title='Mescla de imagens',
