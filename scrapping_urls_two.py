@@ -164,8 +164,10 @@ class main():
             allFiles = objExtract.extractFiles()
             arguments = []
             if st.button("Download imagens"):
+                st.write(allImgs)
                 arguments = [allImgs, "Baixar imagens...", "Baixar todas as imagens (ZIP)", "imagens_scraping.zip"]
             if st.button("Download arquivos"):
+                st.write(allFiles)
                 arguments = [allFiles, "Baixar arquivos...", "Baixar todos os arquivos (ZIP)", "arquivos_scraping.zip"]
             if len(arguments):
                 objDown = downloads(arguments)
