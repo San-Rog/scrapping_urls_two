@@ -139,7 +139,8 @@ class operations():
                 if response.status == 200:
                     return await response.read()
         except Exception as e:
-            st.iframe(self.url)
+            st.markdown(self.url, unsafe_allow_html=True, width="stretch", 
+                        text_alignment="left")
         return None
 
     async def downAll(self):
