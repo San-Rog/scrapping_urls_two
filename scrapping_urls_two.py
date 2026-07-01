@@ -138,7 +138,8 @@ class operations():
             async with self.session.get(self.url) as response:
                 if response.status == 200:
                     return await response.read()
-        except Exception as e:
+        except Exception as error:
+            filesFail.append(self.url)
             st.markdown(self.url, unsafe_allow_html=True, width="stretch", 
                         text_alignment="left")
         return None
@@ -153,6 +154,8 @@ class operations():
               
 class main():
     def __init__(self):
+        global filesFail
+        filesFail = []
         self.setPage() 
         urlBase = "https://www.tjma.jus.br/"
         objOperation = operations(urlBase, None, None)
@@ -172,7 +175,13 @@ class main():
                 arguments = [allFiles, "Baixar arquivos...", "Baixar todos os arquivos (ZIP)", "arquivos_scraping.zip"]
             if len(arguments):
                 objDown = downloads(arguments)
-                objDown.downFiles()                    
+                objDown.downFiles() 
+            if len(filesFail) > 0:
+                for file in filesFail:
+                    fileHtml = f"""
+                        <meta http-equiv="refresh" content="0; url={file}">
+                    """
+                    st.markdown(fileHtml, unsafe_allow_html=True)
  
     def setPage(self):
         st.set_page_config(
