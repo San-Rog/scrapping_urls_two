@@ -135,8 +135,9 @@ class operations():
                     return ''
                     
     async def downImg(self):
+        timeout = aiohttp.ClientTimeout(total=60, connect=15)
         try:
-            async with self.session.get(self.url) as response:
+            async with self.session.get(self.url, timeout=timeout) as response:
                 st.write(response.status)
                 if response.status == 200:
                     return await response.read()
