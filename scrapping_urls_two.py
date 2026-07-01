@@ -39,9 +39,9 @@ class extractElems():
         return textClear
 
     def extractLinks(self): 
-        objAcessories = acessories()
+        objAcessories = acessories(self.soup, self.url)
         with st.spinner(text='Scrapping dos links do site {self.url}...', show_time=True, width="stretch"):
-            links = objAcessories.textUrl(self.soup, self.url)
+            links = objAcessories.textUrl()
             for link in links:
                 st.write(link)
         return links
