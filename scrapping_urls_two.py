@@ -157,7 +157,7 @@ class main():
     def __init__(self):
         self.setPage() 
         urlBase = "https://www.tjma.jus.br"
-        objOperation = operations(urlBase, None, None, None)
+        objOperation = operations(urlBase, None, None, 2)
         soup = asyncio.run(objOperation.scrap())
         if len(soup) > 0:
             objExtract = extractElems(soup, urlBase)
