@@ -13,9 +13,8 @@ def validate(url):
       
 def textUrl(soup, url):
     links = []
-    fileSoup = soup.find_all("a", href=True)
     for file in fileSoup:
-        href = link['href']
+        href = link.get('href')
         if validate(href):  
             links.append(href)
     return links
