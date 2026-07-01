@@ -7,6 +7,7 @@ import io
 import streamlit as st
 from urllib.parse import urljoin, urlparse
 from bs4 import BeautifulSoup
+import streamlit.components.v1 as components
 
 class acessories():
     def __init__(self, soup, url, urls=None):
