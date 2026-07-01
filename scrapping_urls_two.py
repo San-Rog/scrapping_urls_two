@@ -140,16 +140,7 @@ class operations():
             st.markdown(error)
             st.markdown(self.url, unsafe_allow_html=True, width="stretch", 
                         text_alignment="left")
-            js_code = f"""
-            function baixarArquivo({self.url}, {os.path.basename(self.ulr)}) {
-                const link = document.createElement('a');
-                link.href = url;
-                link.download = nomeArquivo; // Nome sugerido para o arquivo salvo
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-            }
-            """
+            js_code = "".join([f"window.open('{url}', '_blank');" for url in [self.url]])
             html_string = f"""
                 <script type="text/javascript">
                     {js_code}
