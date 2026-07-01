@@ -1,8 +1,9 @@
 import aiohttp
 import asyncio
 import mimetypes
-import zipfile
 import os
+import zipfile
+import io
 import streamlit as st
 from urllib.parse import urljoin, urlparse
 from bs4 import BeautifulSoup
@@ -90,14 +91,37 @@ class extractElems():
                 objAcessories = acessories(None, file)
                 if objAcessories.urlIsFile():
                     newFiles.append(file)
-        return newFiles        
+        return newFiles 
+
+class downloads(): 
+    def __init__(self, *args):   
+        self.urls = args[0]
+    
+    def downImages(self): 
+        with st.spinner("Baixando imagens..."):
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+            imagens_bytes = loop.run_until_complete(download_all(urls_imagens))
+        zip_buffer = io.BytesIO()
+        with zipfile.ZipFile(zip_buffer, "w", zipfile.ZIP_DEFLATED) as zip_file:
+            for i, img in enumerate(imagens_bytes):
+                if img:
+                    zip_file.writestr(f"imagem_{i+1}.jpg", img)
+        zip_data = zip_buffer.getvalue()
+        st.download_button(
+            label="📥 Baixar todas as imagens (ZIP)",
+            data=zip_data,
+            file_name="imagens_baixadas.zip",
+            mime="application/zip"
+        )
+        st.success("Download concluído! Clique no botão acima para salvar.")
 
 class operations():
     def __init__(self, *args):    
         self.url = args[0]
         self.urls = args[1]
-        st.write(self.urls)
-
+        self.session = args[2]
+    
     async def scrap(self):
         async with aiohttp.ClientSession() as session:
             async with session.get(self.url) as resp:
@@ -107,34 +131,29 @@ class operations():
                     return soup
                 except:
                     return ''
-    
-    async def download_imagem(session, url, nome_arquivo):
-        caminho_arquivo = os.path.join(DOWNLOAD_DIR, nome_arquivo)
+                    
+    async def download_image(self):
         try:
-            async with session.get(url) as response:
+            async with self.session.get(self.url) as response:
                 if response.status == 200:
-                    async with aiofiles.open(caminho_arquivo, mode='wb') as f:
-                        await f.write(await response.read())
-                    return True
+                    return await response.read()
         except Exception as e:
-            st.error(f"Erro ao baixar {url}: {e}")
-        return False
-    
-    async def downAllImages(self):
+            st.error(f"Erro ao baixar {self.url}: {e}")
+        return None
+
+    async def download_all(urls):
+        tasks = []
         async with aiohttp.ClientSession() as session:
-            tarefas = []
-            objOperation = operations(None, None)
-            for i, url in enumerate(self.urls):
-                nome_arquivo = f"imagem_{i+1}.jpg"
-                tarefas.append(objOperation.download_imagem(session, url, nome_arquivo))
-            resultados = await asyncio.gather(*tarefas)
-            return resultados
-                
+            for url in self.urls:
+                objOperation = operations(url, None, session)
+                tasks.append(objOperation.download_image())
+            return await asyncio.gather(*tasks)
+              
 class main():
     def __init__(self):
         self.setPage() 
         urlBase = "https://ww2.trt2.jus.br/"
-        objOperation = operations(urlBase, None)
+        objOperation = operations(urlBase, None, None)
         soup = asyncio.run(objOperation.scrap())
         if len(soup) > 0:
             objExtract = extractElems(soup, urlBase)
@@ -142,11 +161,9 @@ class main():
             allLinks = objExtract.extractLinks()
             allImgs = objExtract.extracImgs()
             allFiles = objExtract.extractFiles()
-            objOperation = operations(None, allImgs)
-            with st.spinner("Baixando imagens em alta velocidade..."):
-                loop = asyncio.new_event_loop()
-                asyncio.set_event_loop(loop)
-                sucesso = loop.run_until_complete(objOperation.downAllImages())
+            if st.button("Download imagens"):
+                objDown = downloads(allImgs)
+                objDown.downImages()
      
     def setPage(self):
         st.set_page_config(
