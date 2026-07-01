@@ -140,8 +140,7 @@ class operations():
             st.markdown(error)
             st.markdown(self.url, unsafe_allow_html=True, width="stretch", 
                         text_alignment="left")
-            js_code = 
-            f"""
+            js_code = f"""
             function baixarArquivo({self.url}, {os.path.basename(self.ulr)}) {
                 const link = document.createElement('a');
                 link.href = url;
