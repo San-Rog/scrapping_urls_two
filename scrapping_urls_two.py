@@ -148,6 +148,7 @@ class operations():
     async def downImg(self):
         try:
             async with self.session.get(self.url) as response:
+                st.write(response.status)
                 if response.status == 200:
                     return await response.read()
         except Exception as error:
