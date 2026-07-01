@@ -14,7 +14,6 @@ class acessories():
         self.soup = soup
         self.url = url
         self.urls = urls
-        st.write('mmmmmm')
     
     def validate(self):
         try:
@@ -157,6 +156,7 @@ class operations():
             filesFail.append(self.url)
             st.markdown(self.url, unsafe_allow_html=True, width="stretch", 
                         text_alignment="left")
+            return None
         return None
 
     async def downAll(self):
@@ -191,11 +191,12 @@ class main():
             if len(arguments):
                 objDown = downloads(arguments)
                 objDown.downFiles() 
-        if len(filesFail) > 0:
-            st.write(filesFail)
-            if st.button("Abrir todos os links"):
-                objAcessories = acessories(None, None, filesFail)
-                objAcessories.openUrls()
+            if len(filesFail) > 0:
+                st.write('mmmm')
+                st.write(filesFail)
+                #if st.button("Abrir todos os links"):
+                #objAcessories = acessories(None, None, filesFail)
+                #objAcessories.openUrls()
  
     def setPage(self):
         st.set_page_config(
