@@ -87,7 +87,7 @@ class main():
         self.urlBase = "https://ww2.trt2.jus.br/"
         self.soup = asyncio.run(scrap(self.urlBase))
         if len(self.soup) > 0:
-            objExtract = extractElem
+            objExtract = extractElems()
             objExtract.extractText(self.soup, urlBase)
             objExtract.extractLinks(self.soup, urlBase)
             objExtract.extracImgs(self.soup, urlBase)
