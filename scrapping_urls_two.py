@@ -94,12 +94,12 @@ class extractElems():
         return newFiles 
 
 class downloads(): 
-    def __init__(self, *args):   
-        self.urls = args[0]
+    def __init__(self, arguments):   
+        self.urls, self.textSpin, self.textDown, self.nameDown = arguments
     
-    def downImages(self): 
+    def downFiles(self): 
         objOperation = operations(None, self.urls, None)
-        with st.spinner("Baixando imagens..."):
+        with st.spinner(self.textSpin):
             loop = asyncio.new_event_loop()
             asyncio.set_event_loop(loop)
             imagens_bytes = loop.run_until_complete(objOperation.download_all())
@@ -110,9 +110,9 @@ class downloads():
                     zip_file.writestr(os.path.basename(self.urls[i]), img)
         zip_data = zip_buffer.getvalue()
         st.download_button(
-            label="📥 Baixar todas as imagens (ZIP)",
+            label=f"📥 {self.textDown}",
             data=zip_data,
-            file_name="imagens_baixadas.zip",
+            file_name=self.nameDown,
             mime="application/zip"
         )
         st.success("Download concluído! Clique no botão acima para salvar.")
@@ -162,10 +162,15 @@ class main():
             allLinks = objExtract.extractLinks()
             allImgs = objExtract.extracImgs()
             allFiles = objExtract.extractFiles()
+            arguments = []
             if st.button("Download imagens"):
-                objDown = downloads(allImgs)
-                objDown.downImages()
-     
+                arguments = [allImgs, "Baixar imagens...", "Baixar todas as imagens (ZIP)", "imagens_scraping.zip"]
+            if st.button("Download arquivos"):
+                arguments = [allImgs, "Baixar arquivos...", "Baixar todos os arquivos (ZIP)", "arquivos_scraping.zip"]
+            if len(arguments):
+                objDown = downloads(arguments)
+                    
+ 
     def setPage(self):
         st.set_page_config(
             page_title='Mescla de imagens',
