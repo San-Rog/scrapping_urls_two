@@ -125,9 +125,9 @@ class main():
             allFiles = objExtract.extractFiles()
             loop = asyncio.new_event_loop()
             asyncio.set_event_loop(loop)
+            objOperation = operations(None, allImgs)
             results = loop.run_until_complete(objOperation.fetch_all_images())
-            
-    
+     
     def setPage(self):
         st.set_page_config(
             page_title='Mescla de imagens',
