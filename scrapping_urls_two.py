@@ -94,6 +94,7 @@ class extractElems():
 class operations():
     def __init__(self, *args):    
         self.url = args[0]
+        self.urls = args[1]
 
     async def scrap(self):
         async with aiohttp.ClientSession() as session:
@@ -104,12 +105,17 @@ class operations():
                     return soup
                 except:
                     return ''
+    
+    async def fetch_all_images(self):
+        async with aiohttp.ClientSession() as session:
+            tasks = [fetch_image(session, url) for url in self.urls]
+            return await asyncio.gather(*tasks)
                 
 class main():
     def __init__(self):
         self.setPage() 
         urlBase = "https://ww2.trt2.jus.br/"
-        objOperation = operations(urlBase)
+        objOperation = operations(urlBase, None)
         soup = asyncio.run(objOperation.scrap())
         if len(soup) > 0:
             objExtract = extractElems(soup, urlBase)
@@ -117,7 +123,10 @@ class main():
             allLinks = objExtract.extractLinks()
             allImgs = objExtract.extracImgs()
             allFiles = objExtract.extractFiles()
-            st.write(allFiles)
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+            results = loop.run_until_complete(objOperation.fetch_all_images())
+            
     
     def setPage(self):
         st.set_page_config(
