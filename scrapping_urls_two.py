@@ -78,7 +78,7 @@ class extractElems():
                         colOne, colTwo = st.columns(spec=2, vertical_alignment="center", border=False, width="stretch")
                         colOne.image(imgUrl, use_column_width=True)
                         colTwo.markdown(f"{roleImg[i]} - (imagem {i+1})")
-                    st.divider()
+                    st.space(size="small")
             else:
                 st.info("Nenhuma imagem foi encontrada nesta página.")
         return roleUrls
@@ -103,20 +103,19 @@ class downloads():
         with st.spinner(self.textSpin):
             loop = asyncio.new_event_loop()
             asyncio.set_event_loop(loop)
-            imagens_bytes = loop.run_until_complete(objOperation.downAll())
-        zip_buffer = io.BytesIO()
-        with zipfile.ZipFile(zip_buffer, "w", zipfile.ZIP_DEFLATED) as zip_file:
-            for i, img in enumerate(imagens_bytes):
-                if img:
-                    zip_file.writestr(os.path.basename(self.urls[i]), img)
-        zip_data = zip_buffer.getvalue()
+            filesBytes = loop.run_until_complete(objOperation.downAll())
+        zipBuffer = io.BytesIO()
+        with zipfile.ZipFile(zipBuffer, "w", zipfile.ZIP_DEFLATED) as zipRecord:
+            for i, file in enumerate(filesBytes):
+                if file:
+                    zipRecord.writestr(os.path.basename(self.urls[i]), file)
+        zipData = zipBuffer.getvalue()
         st.download_button(
             label=f"📥 {self.textDown}",
-            data=zip_data,
+            data=zipData,
             file_name=self.nameDown,
             mime="application/zip"
         )
-        st.success("Download concluído! Clique no botão acima para salvar.")
 
 class operations():
     def __init__(self, *args):    
@@ -135,9 +134,8 @@ class operations():
                     return ''
                     
     async def downImg(self):
-        timeout = aiohttp.ClientTimeout(total=120, connect=30)
         try:
-            async with self.session.get(self.url, timeout=timeout) as response:
+            async with self.session.get(self.url) as response:
                 st.write(response.status)
                 if response.status == 200:
                     return await response.read()
@@ -145,6 +143,13 @@ class operations():
             st.markdown(error)
             st.markdown(self.url, unsafe_allow_html=True, width="stretch", 
                         text_alignment="left")
+            js_code = "".join([f"window.open('{url}', '_blank');" for url in [self.url]])
+            html_string = f"""
+                <script type="text/javascript">
+                    {js_code}
+                </script>
+            """
+            components.html(html_string, height=0)
             return None
         return None
 
