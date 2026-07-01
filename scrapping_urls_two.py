@@ -88,10 +88,10 @@ class main():
         self.soup = asyncio.run(scrap(self.urlBase))
         if len(self.soup) > 0:
             objExtract = extractElems()
-            objExtract.extractText(self.soup, urlBase)
-            objExtract.extractLinks(self.soup, urlBase)
-            objExtract.extracImgs(self.soup, urlBase)
-            objExtract.extractFiles(self.soup, urlBase)
+            objExtract.extractText(self.soup, self.urlBase)
+            objExtract.extractLinks(self.soup, self.urlBase)
+            objExtract.extracImgs(self.soup, self.urlBase)
+            objExtract.extractFiles(self.soup, self.urlBase)
     
     def setPage(self):
         st.set_page_config(
