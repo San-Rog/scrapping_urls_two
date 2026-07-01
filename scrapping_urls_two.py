@@ -98,11 +98,11 @@ class downloads():
         self.urls, self.textSpin, self.textDown, self.nameDown = arguments
     
     def downFiles(self): 
-        objOperation = operations(None, self.urls, None, 2)
+        objOperation = operations(None, self.urls, None)
         with st.spinner(self.textSpin):
             loop = asyncio.new_event_loop()
             asyncio.set_event_loop(loop)
-            imagens_bytes = loop.run_until_complete(objOperation.download_all())
+            imagens_bytes = loop.run_until_complete(objOperation.downAll())
         zip_buffer = io.BytesIO()
         with zipfile.ZipFile(zip_buffer, "w", zipfile.ZIP_DEFLATED) as zip_file:
             for i, img in enumerate(imagens_bytes):
@@ -122,7 +122,6 @@ class operations():
         self.url = args[0]
         self.urls = args[1]
         self.session = args[2]
-        self.semaphore = args[3]
     
     async def scrap(self):
         async with aiohttp.ClientSession() as session:
@@ -134,30 +133,28 @@ class operations():
                 except:
                     return ''
                     
-    async def download_image(self):
-        async with self.semaphore:
-            try:
-                async with self.session.get(self.url) as response:
-                    if response.status == 200:
-                        return await response.read()
-            except Exception as e:
-                st.error(f"Erro ao baixar {self.url}: {e}")
-                return None
+    async def downImg(self):
+        try:
+            async with self.session.get(self.url) as response:
+                if response.status == 200:
+                    return await response.read()
+        except Exception as e:
+            st.iframe(self.url)
+        return None
 
-    async def download_all(self):
+    async def downAll(self):
         tasks = []
-        sem = asyncio.Semaphore(self.semaphore)
         async with aiohttp.ClientSession() as session:
             for url in self.urls:
-                objOperation = operations(url, None, session, sem)
-                tasks.append(objOperation.download_image())
+                objOperation = operations(url, None, session)
+                tasks.append(objOperation.downImg())
             return await asyncio.gather(*tasks)
               
 class main():
     def __init__(self):
         self.setPage() 
-        urlBase = "https://www.tjma.jus.br"
-        objOperation = operations(urlBase, None, None, 2)
+        urlBase = "https://ww2.trt2.jus.br/"
+        objOperation = operations(urlBase, None, None)
         soup = asyncio.run(objOperation.scrap())
         if len(soup) > 0:
             objExtract = extractElems(soup, urlBase)
