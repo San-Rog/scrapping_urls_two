@@ -194,9 +194,9 @@ class main():
             if len(filesFail) > 0:
                 st.write('mmmm')
                 st.write(filesFail)
-                #if st.button("Abrir todos os links"):
-                #objAcessories = acessories(None, None, filesFail)
-                #objAcessories.openUrls()
+                if st.button("Abrir todos os links"):
+                    objAcessories = acessories(None, None, filesFail)
+                    objAcessories.openUrls()
  
     def setPage(self):
         st.set_page_config(
