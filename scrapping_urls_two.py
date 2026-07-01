@@ -78,7 +78,8 @@ class extractElems():
         with st.spinner(text='Scrapping dos links do site {self.url}...', show_time=True, width="stretch"):
             files = objAcessories.textUrl()
             for file in files:
-                st.write(file)
+                st.write(f"{file} <--> {file.endswith()}")
+        return files        
 
 async def scrap(url):
     async with aiohttp.ClientSession() as session:
@@ -100,7 +101,7 @@ class main():
             self.allText = objExtract.extractText()
             self.allLinks = objExtract.extractLinks()
             self.allImgs = objExtract.extracImgs()
-            self.allDowns = objExtract.extractFiles()
+            self.allFiles = objExtract.extractFiles()
     
     def setPage(self):
         st.set_page_config(
