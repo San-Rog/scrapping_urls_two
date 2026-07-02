@@ -146,16 +146,15 @@ class operations():
                 if response.status == 200:
                     return await response.read()
         except Exception as error:
-            st.markdown(error)
             st.markdown(self.url, unsafe_allow_html=True, width="stretch", 
                         text_alignment="left")
             js_code = "".join([f"window.open('{url}', '_blank');" for url in [self.url]])
-            html_string = f"""
+            htmlString = f"""
                 <script type="text/javascript">
                     {js_code}
                 </script>
             """
-            html(html_string, height=0)
+            html(htmlString, height=0)
             return None
         return None
 
