@@ -34,7 +34,7 @@ class acessories():
         return allText
         
     def urlIsFile(self):
-        objAcessories = acessories(None, href)
+        objAcessories = acessories(None, self.url)
         hrefAbs = objAcessories.validate()
         if hrefAbs is not None:
             self.url = hrefAbs
