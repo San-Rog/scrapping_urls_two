@@ -42,10 +42,11 @@ class acessories():
         parsed_url = urlparse(self.url)
         st.write(parsed_url)
         mime_type, _ = mimetypes.guess_type(parsed_url.path)
-        st.write(mime_type)
-        if mime_type and 'text/html' not in mime_type:
+        ext = mime_type["path"]
+        if len(os.path.splitext(ext)[1]) >= 4:
             return True
-        return False
+        else:
+            return False
             
 class extractElems():
     def __init__(self, *args):    
