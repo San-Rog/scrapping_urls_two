@@ -34,8 +34,14 @@ class acessories():
         return allText
         
     def urlIsFile(self):
+        objAcessories = acessories(None, href)
+        hrefAbs = objAcessories.validate()
+            if hrefAbs is not None:
+                self.url = hrefAbs
         parsed_url = urlparse(self.url)
+        st.write(parsed_url)
         mime_type, _ = mimetypes.guess_type(parsed_url.path)
+        st.write(mime_type)
         if mime_type and 'text/html' not in mime_type:
             return True
         return False
