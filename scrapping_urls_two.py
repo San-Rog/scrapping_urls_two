@@ -161,7 +161,7 @@ class operations():
 class main():
     def __init__(self):
         self.setPage() 
-        urlBase = "https://bibliotecadigital.trt16.jus.br/search?spc.page=1&spc.sf=dc.date.accessioned&spc.sd=DESC"
+        urlBase = "view-source:https://transparencia.ma.gov.br/app/v2/pessoal/remuneracao"
         objOperation = operations(urlBase, None, None)
         soup = asyncio.run(objOperation.scrap())
         if len(soup) > 0:
