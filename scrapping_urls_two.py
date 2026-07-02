@@ -7,6 +7,7 @@ import io
 import streamlit as st
 from urllib.parse import urljoin, urlparse
 from bs4 import BeautifulSoup
+from urllib.parse import unquote
 from streamlit.components.v1 import html
 
 class acessories():
@@ -114,7 +115,7 @@ class downloads():
         with zipfile.ZipFile(zipBuffer, "w", zipfile.ZIP_DEFLATED) as zipRecord:
             for i, file in enumerate(filesBytes):
                 if file:
-                    zipRecord.writestr(os.path.basename(self.urls[i]), file)
+                    zipRecord.writestr(unquote(os.path.basename(self.urls[i])), file)
         zipData = zipBuffer.getvalue()
         st.download_button(
             label=f"📥 {self.textDown}",
@@ -171,7 +172,7 @@ class main():
         global urlPrimal
         urlPrimal = "https://www.trt7.jus.br"
         self.setPage() 
-        urlBase = "https://www.trt7.jus.br/index.php/transparencia-portal/contas-publicas/diarias-e-passagens"
+        urlBase = "https://www.trt7.jus.br/index.php/transparencia-portal/contas-publicas/diarias-e-passagens?start=3"
         objOperation = operations(urlBase, None, None)
         soup = asyncio.run(objOperation.scrap())
         if len(soup) > 0:
