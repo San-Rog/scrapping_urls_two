@@ -43,9 +43,12 @@ class acessories():
         st.write(parsed_url)
         mime_type, _ = mimetypes.guess_type(parsed_url.path)
         ext = mime_type["path"]
-        if len(os.path.splitext(ext)[1]) >= 4:
-            return True
-        else:
+        try:
+            if len(os.path.splitext(ext)[1]) >= 4:
+                return True
+            else:
+                return False
+        except:
             return False
             
 class extractElems():
