@@ -15,9 +15,9 @@ class acessories():
         self.url = url
     
     def validate(self):
-        st.write(self.url)
+        urlAbs = urljoin(urlPrimal, self.url)
         try:
-            parsed = urlparse(self.url)
+            parsed = urlparse(urlAbs)
             return all([parsed.scheme, parsed.netloc])
         except ValueError:
             return False
@@ -161,6 +161,8 @@ class operations():
               
 class main():
     def __init__(self):
+        global urlPrimal
+        urlPrimal = "https://www.trt7.jus.br"
         self.setPage() 
         urlBase = "https://www.trt7.jus.br/index.php/transparencia-portal/contas-publicas/diarias-e-passagens"
         objOperation = operations(urlBase, None, None)
