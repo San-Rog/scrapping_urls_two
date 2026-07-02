@@ -171,7 +171,7 @@ class main():
         global urlPrimal
         urlPrimal = "https://www.trt7.jus.br"
         self.setPage() 
-        urlBase = "https://www.trt7.jus.br/index.php/transparencia-portal/contas-publicas/diarias-e-passagens"
+        urlBase = "https://dadosabertos.camara.leg.br/swagger/api.html?tab=staticfile"
         objOperation = operations(urlBase, None, None)
         soup = asyncio.run(objOperation.scrap())
         if len(soup) > 0:
