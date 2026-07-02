@@ -18,10 +18,9 @@ class acessories():
         urlAbs = urljoin(urlPrimal, self.url)
         try:
             parsed = urlparse(urlAbs)
-            st.write(parsed)
-            return all([parsed.scheme, parsed.netloc])
+            return urlAbs
         except ValueError:
-            return False
+            return None
       
     def textUrl(self):
         allText = []
@@ -29,8 +28,9 @@ class acessories():
         for file in fileSoup:
             href = file['href']
             objAcessories = acessories(None, href)
-            if objAcessories.validate():  
-                allText.append(href)
+            hrefAbs = objAcessories.validate()
+            if hrefAbs is not None:  
+                allText.append(hrefAbs)
         return allText
         
     def urlIsFile(self):
