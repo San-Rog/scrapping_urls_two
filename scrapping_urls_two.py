@@ -161,7 +161,7 @@ class operations():
 class main():
     def __init__(self):
         self.setPage() 
-        urlBase = "https://www.trf1.jus.br"
+        urlBase = "https://portal.trf1.jus.br/Processos/precedentes/"
         objOperation = operations(urlBase, None, None)
         soup = asyncio.run(objOperation.scrap())
         if len(soup) > 0:
@@ -194,6 +194,10 @@ if __name__ == '__main__':
 
 #https://scrappingurlstwo-aouanptf499cdt98bpmjvg.streamlit.app/
 #https://docs.aiohttp.org/en/stable/client_quickstart.html
+
+
+ 
+
 
 
  
