@@ -36,8 +36,8 @@ class acessories():
     def urlIsFile(self):
         objAcessories = acessories(None, href)
         hrefAbs = objAcessories.validate()
-            if hrefAbs is not None:
-                self.url = hrefAbs
+        if hrefAbs is not None:
+            self.url = hrefAbs
         parsed_url = urlparse(self.url)
         st.write(parsed_url)
         mime_type, _ = mimetypes.guess_type(parsed_url.path)
