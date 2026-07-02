@@ -161,7 +161,7 @@ class operations():
 class main():
     def __init__(self):
         self.setPage() 
-        urlBase = "https://www.trt16.jus.br"
+        urlBase = "https://www.trt16.jus.br/transparencia/prestacao-de-contas/apresentacao"
         objOperation = operations(urlBase, None, None)
         soup = asyncio.run(objOperation.scrap())
         if len(soup) > 0:
