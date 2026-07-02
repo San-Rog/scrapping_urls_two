@@ -26,9 +26,9 @@ class acessories():
         fileSoup = self.soup.find_all("a", href=True)
         for file in fileSoup:
             href = file['href']
-            objAcessories = acessories(None, href)
-            if objAcessories.validate():  
-                allText.append(href)
+            #objAcessories = acessories(None, href)
+            #if objAcessories.validate():  
+            allText.append(href)
         return allText
         
     def urlIsFile(self):
