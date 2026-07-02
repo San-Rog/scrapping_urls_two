@@ -18,6 +18,7 @@ class acessories():
         urlAbs = urljoin(urlPrimal, self.url)
         try:
             parsed = urlparse(urlAbs)
+            st.write(parsed)
             return all([parsed.scheme, parsed.netloc])
         except ValueError:
             return False
