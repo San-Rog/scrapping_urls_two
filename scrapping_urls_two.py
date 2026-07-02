@@ -161,7 +161,7 @@ class operations():
 class main():
     def __init__(self):
         self.setPage() 
-        urlBase = "https://dados.ma.gov.br"
+        urlBase = "https://dados.ma.gov.br/?q=dataset/folha-de-pagamento-2026"
         objOperation = operations(urlBase, None, None)
         soup = asyncio.run(objOperation.scrap())
         if len(soup) > 0:
