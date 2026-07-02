@@ -15,6 +15,7 @@ class acessories():
         self.url = url
     
     def validate(self):
+        st.write(self.url)
         try:
             parsed = urlparse(self.url)
             return all([parsed.scheme, parsed.netloc])
